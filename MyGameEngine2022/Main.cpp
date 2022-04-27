@@ -1,9 +1,9 @@
 #include <Windows.h>
 
 //定数宣言
-LPCWSTR WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+const LPCWSTR WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
+const int WINDOW_WIDTH = 800;				   //ウィンドウの幅
+const int WINDOW_HEIGHT = 600;				   //ウィンドウの高さ
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -27,6 +27,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景（白）
 	RegisterClassEx(&wc); //クラスを登録
 
+	//ウィンドウサイズの計算
+	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
+	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
+	int winW = winRect.right - winRect.left;     //ウィンドウ幅
+	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
+
 	//ウィンドウを作成
 	HWND hWnd = CreateWindow
 	(
@@ -34,9 +40,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		L"サンプルゲーム",   //タイトルバーに表示する内容
 		WS_OVERLAPPEDWINDOW, //スタイル（普通のウィンドウ）
 		CW_USEDEFAULT,       //表示位置左（おまかせ）
-		CW_USEDEFAULT,       //表示位置上（おまかせ）
-		WINDOW_WIDTH,        //ウィンドウ幅
-		WINDOW_HEIGHT,       //ウィンドウ高さ
+		CW_USEDEFAULT,		 //表示位置上（おまかせ）
+		winW,		         //ウィンドウ幅
+		winH,				 //ウィンドウ高さ
 		NULL,                //親ウインドウ（なし）
 		NULL,                //メニュー（なし）
 		hInstance,           //インスタンス
