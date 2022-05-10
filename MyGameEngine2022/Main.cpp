@@ -20,6 +20,12 @@ ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
+	//ウィンドウサイズの計算
+	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
+	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
+	int winW = winRect.right - winRect.left;     //ウィンドウ幅
+	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
+
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
@@ -115,8 +121,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	///////////////////////////ビューポート（描画範囲）設定///////////////////////////////
 	//レンダリング結果を表示する範囲
 	D3D11_VIEWPORT vp;
-	vp.Width = (float)winW;	//幅
-	vp.Height = (float)winH;//高さ
+	vp.Width = (float)WINDOW_WIDTH;	//幅
+	vp.Height = (float)WINDOW_HEIGHT;//高さ
 	vp.MinDepth = 0.0f;	//手前
 	vp.MaxDepth = 1.0f;	//奥
 	vp.TopLeftX = 0;	//左
