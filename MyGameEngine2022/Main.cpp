@@ -20,11 +20,6 @@ ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
-	//ウィンドウサイズの計算
-	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
-	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
-	int winW = winRect.right - winRect.left;     //ウィンドウ幅
-	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
 
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
