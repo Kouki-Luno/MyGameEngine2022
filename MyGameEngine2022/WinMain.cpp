@@ -1,9 +1,6 @@
 #include <Windows.h>
 #include "Direct3D.h"
-#include <d3d11.h>
 
-//リンカ
-#pragma comment(lib, "d3d11.lib")
 
 //定数宣言
 const LPCWSTR WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
