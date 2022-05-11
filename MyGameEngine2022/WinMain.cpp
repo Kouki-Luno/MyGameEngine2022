@@ -87,11 +87,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//描画処理
 			Direct3D::EndDraw();
 
-			//スワップ（バックバッファを表に表示する）
-			pSwapChain->Present(0, 0);
+			////スワップ（バックバッファを表に表示する）
+			//pSwapChain->Present(0, 0);
 		}
 	}
 
+	Direct3D::Release();
 	return 0;
 }
 
