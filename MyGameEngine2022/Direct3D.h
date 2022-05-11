@@ -25,4 +25,5 @@ namespace Direct3D
 	//‰ð•ú
 	void Release();
 
+	extern ID3D11Device* pDevice;
 };
