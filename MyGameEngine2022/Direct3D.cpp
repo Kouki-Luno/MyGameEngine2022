@@ -85,6 +85,8 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 	//シェーダー準備
 	InitShader();
+
+
 }
 
 //シェーダー準備
@@ -160,5 +162,6 @@ void Direct3D::Release()
 	pSwapChain->Release();
 	pContext->Release();
 	pDevice->Release();
+
 }
 

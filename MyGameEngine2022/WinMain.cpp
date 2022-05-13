@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "Direct3D.h"
+#include "Quad.h"
 
 
 //定数宣言
@@ -9,11 +10,6 @@ const int WINDOW_HEIGHT = 600;				   //ウィンドウの高さ
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-ID3D11Device* pDevice;		//デバイス
-ID3D11DeviceContext* pContext;		//デバイスコンテキスト
-IDXGISwapChain* pSwapChain;		//スワップチェイン
-ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -63,6 +59,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
 
+	//Quad初期化
+	Quad Quad;
+	Quad.Initialize();
+
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -80,6 +80,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			//ゲームの処理
 			Direct3D::BeginDraw();
+			Quad.Draw();
 
 			//描画処理
 			Direct3D::EndDraw();
@@ -89,6 +90,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 
 	Direct3D::Release();
+	Quad.Release();
 	return 0;
 }
 
