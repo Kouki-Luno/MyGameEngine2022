@@ -15,7 +15,7 @@ namespace Direct3D
 }
 
 //初期化
-void Direct3D::Initialize(int winW, int winH, HWND hWnd)
+HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 {
 	///////////////////////////いろいろ準備するための設定///////////////////////////////
 	//いろいろな設定項目をまとめた構造体
@@ -84,19 +84,30 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	pContext->RSSetViewports(1, &vp);
 
 	//シェーダー準備
+	HRESULT hr;
 	InitShader();
+	if (FAILED(hr))
+	{
+		return hr;
+	}
 
-
+	return S_OK;
 }
 
 //シェーダー準備
-void Direct3D::InitShader()
+HRESULT Direct3D::InitShader()
 {
+	HRESULT hr;
+
 	// 頂点シェーダの作成（コンパイル）
 	ID3DBlob* pCompileVS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
-	pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
-
+	assert(pCompileVS != nullptr);
+	hr = pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
+	if (FAILED(hr))
+	{
+		return hr;
+	}
 	//頂点インプットレイアウト
 	D3D11_INPUT_ELEMENT_DESC layout[] = 
 	{
@@ -104,13 +115,14 @@ void Direct3D::InitShader()
 	};
 	pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
 
-	pCompileVS->Release();
+	SAFE_RELEASE(pCompileVS);
 
 	// ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	assert(pCompilePS != nullptr);
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
-	pCompilePS->Release();
+	SAFE_RELEASE(pCompilePS);
 
 	//ラスタライザ作成
 	D3D11_RASTERIZER_DESC rdc = {};
