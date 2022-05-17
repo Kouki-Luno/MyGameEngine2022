@@ -6,6 +6,7 @@ Quad::Quad()
 
 Quad::~Quad()
 {
+	Release();
 }
 
 void Quad::Initialize()
@@ -17,7 +18,7 @@ void Quad::Initialize()
 		XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（右上）
 		XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（右下）
 		XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（左下）	
-		XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四(五)角形の頂点（上）	
+		//XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四(五)角形の頂点（上）	
 	};
 
 	// 頂点データ用バッファの設定
@@ -33,7 +34,7 @@ void Quad::Initialize()
 	Direct3D::pDevice->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 
 	//インデックス情報
-	int index[] = { 0,2,3, 0,1,2, 4,1,0};
+	int index[] = { 0,2,3, 0,1,2 };//, 4,1,0};
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -99,7 +100,7 @@ void Quad::Draw()
 //解放処理
 void Quad::Release()
 {
-	pVertexBuffer_->Release();
-	pIndexBuffer_->Release();
-	pConstantBuffer_->Release();
+	SAFE_RELEASE(pConstantBuffer_);
+	SAFE_RELEASE(pIndexBuffer_);
+	SAFE_RELEASE(pVertexBuffer_);
 }

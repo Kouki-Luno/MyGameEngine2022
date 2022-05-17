@@ -60,9 +60,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Direct3D::Initialize(winW, winH, hWnd);
 
 	//Quad初期化
-	Quad Quad;
-	Quad.Initialize();
+	Quad* pQuad;
 
+	pQuad->Initialize();
+	
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -80,7 +81,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			//ゲームの処理
 			Direct3D::BeginDraw();
-			Quad.Draw();
+			pQuad->Draw();
 
 			//描画処理
 			Direct3D::EndDraw();
@@ -89,8 +90,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		}
 	}
 
+	SAFE_DELETE(pQuad);
 	Direct3D::Release();
-	Quad.Release();
+	pQuad->Release();
+	
 	return 0;
 }
 
