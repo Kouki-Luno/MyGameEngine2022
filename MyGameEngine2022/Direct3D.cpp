@@ -85,7 +85,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 	//シェーダー準備
 	HRESULT hr;
-	InitShader();
+	hr = InitShader();
 	if (FAILED(hr))
 	{
 		return hr;
@@ -104,8 +104,11 @@ HRESULT Direct3D::InitShader()
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
 	assert(pCompileVS != nullptr);
 	hr = pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
+	//hr = E_FAIL;
 	if (FAILED(hr))
 	{
+		MessageBox(NULL, L"頂点シェーダーの作成に失敗しました", L"エラー", MB_OK);
+		SAFE_RELEASE(pCompileVS);
 		return hr;
 	}
 	//頂点インプットレイアウト
@@ -113,23 +116,38 @@ HRESULT Direct3D::InitShader()
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
 	};
-	pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
-
-	SAFE_RELEASE(pCompileVS);
+	hr = pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"頂点インプットレイアウトに失敗しました", L"エラー", MB_OK);
+		SAFE_RELEASE(pCompileVS);
+		return hr;
+	}
 
 	// ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	assert(pCompilePS != nullptr);
-	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
-	SAFE_RELEASE(pCompilePS);
+	hr = pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"ピクセルシェーダーの作成に失敗しました", L"エラー", MB_OK);
+		SAFE_RELEASE(pCompilePS);
+		return hr;
+	}
 
 	//ラスタライザ作成
 	D3D11_RASTERIZER_DESC rdc = {};
 	rdc.CullMode = D3D11_CULL_BACK;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	rdc.FrontCounterClockwise = FALSE;
-	pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
+	hr = pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"ラスタライザ作成に失敗しました", L"エラー", MB_OK);
+
+		return hr;
+	}
 
 	//それぞれをデバイスコンテキストにセット
 	pContext->VSSetShader(pVertexShader, NULL, 0);	//頂点シェーダー

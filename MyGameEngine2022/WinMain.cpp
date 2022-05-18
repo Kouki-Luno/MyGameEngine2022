@@ -60,17 +60,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	
 	//Direct3D初期化
 	HRESULT hr;
-
 	hr = Direct3D::Initialize(winW, winH, hWnd);
-
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
+
 	//Quad初期化
 	Quad* pQuad;
 	pQuad = new Quad;
-
 	pQuad->Initialize();
 	
 	//メッセージループ（何か起きるのを待つ）

@@ -11,6 +11,7 @@ Quad::~Quad()
 
 void Quad::Initialize()
 {
+	HRESULT hr;
 	// 頂点情報
 	XMVECTOR vertices[] =
 	{
@@ -61,6 +62,7 @@ void Quad::Initialize()
 
 	// コンスタントバッファの作成
 	Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
+
 }
 
 //描画
