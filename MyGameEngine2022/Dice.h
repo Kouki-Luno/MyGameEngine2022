@@ -1,7 +1,8 @@
 #pragma once
-#include "Direct3D.h"
-#include <DirectXMath.h>
-#include "Texture.h"
+#include"Direct3D.h"
+#include<DirectXMath.h>
+#include"Texture.h"
+//#include"Dice.h"
 
 using namespace DirectX;
 
@@ -18,7 +19,7 @@ struct VERTEX
 	XMVECTOR uv;
 };
 
-class Quad
+class Dice
 {
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
 	ID3D11Buffer* pIndexBuffer_;
@@ -27,9 +28,9 @@ class Quad
 	Texture* pTexture_;
 
 public:
-	Quad();
+	Dice();
 
-	~Quad();
+	~Dice();
 
 	HRESULT Initialize();
 

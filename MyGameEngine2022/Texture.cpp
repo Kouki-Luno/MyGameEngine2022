@@ -4,35 +4,34 @@
 
 #pragma comment( lib, "WindowsCodecs.lib" )
 
+
 Texture::Texture()
 {
 
 }
+
 
 Texture::~Texture()
 {
 
 }
 
-HRESULT Texture::Load(std::string fileName)
-{
-	wchar_t wtext[FILENAME_MAX];
-	size_t ret;
-	mbstowcs_s(&ret, wtext, fileName.c_str(), fileName.length());
 
-	CoInitialize(nullptr);
+HRESULT Texture::Load(LPCWSTR fileName)
+{
+	
 
 	IWICImagingFactory* pFactory = nullptr;
 	IWICBitmapDecoder* pDecoder = nullptr;
 	IWICBitmapFrameDecode* pFrame = nullptr;
 	IWICFormatConverter* pFormatConverter = nullptr;
 	CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, reinterpret_cast<void**>(&pFactory));
-	HRESULT hr = pFactory->CreateDecoderFromFilename(wtext, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder);
+	HRESULT hr = pFactory->CreateDecoderFromFilename(fileName, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder);
 	pDecoder->GetFrame(0, &pFrame);
 	pFactory->CreateFormatConverter(&pFormatConverter);
 	pFormatConverter->Initialize(pFrame, GUID_WICPixelFormat32bppRGBA, WICBitmapDitherTypeNone, NULL, 1.0f, WICBitmapPaletteTypeMedianCut);
 
-	CoUninitialize();
+	
 
 	//
 	UINT imgWidth;
@@ -65,24 +64,41 @@ HRESULT Texture::Load(std::string fileName)
 	D3D11_SAMPLER_DESC  SamDesc;
 	ZeroMemory(&SamDesc, sizeof(D3D11_SAMPLER_DESC));
 	SamDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	SamDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-	SamDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-	Direct3D::pDevice->CreateSamplerState(&SamDesc, &pSampler_);
+	SamDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	SamDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	hr = Direct3D::pDevice->CreateSamplerState(&SamDesc, &pSampler_);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"a", L"a", MB_OK);
+
+		return hr;
+	}
 
 	//シェーダーリソースビュー作成
 	D3D11_SHADER_RESOURCE_VIEW_DESC srv = {};
 	srv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	srv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srv.Texture2D.MipLevels = 1;
-	Direct3D::pDevice->CreateShaderResourceView(pTexture, &srv, &pSRV_);
+	hr = Direct3D::pDevice->CreateShaderResourceView(pTexture, &srv, &pSRV_);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"b", L"b", MB_OK);
+
+		return hr;
+	}
+
 	pTexture->Release();
 
 	return S_OK;
 
 }
 
+
 void Texture::Release()
 {
-	
+	SAFE_RELEASE(pSampler_);
+	SAFE_RELEASE(pSRV_);
 }
+
+

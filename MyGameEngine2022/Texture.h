@@ -10,10 +10,10 @@ class Texture
 public:
 	Texture();
 	~Texture();
-	HRESULT Load(std::string fileName);
+	HRESULT Load(LPCWSTR fileName);
 	void Release();
 
 	//アクセス関数
-	ID3D11SamplerState* GetSampler();
-	ID3D11ShaderResourceView* GetSRV();
+	ID3D11SamplerState* GetSampler() { return pSampler_; }
+	ID3D11ShaderResourceView* GetSRV() { return pSRV_; }
 };

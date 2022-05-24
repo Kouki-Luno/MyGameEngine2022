@@ -1,8 +1,8 @@
-#include "Quad.h"
+#include "Dice.h"
 #include "Camera.h"
 
 
-Quad::Quad() :
+Dice::Dice() :
 	pVertexBuffer_(nullptr),
 	pIndexBuffer_(nullptr),
 	pConstantBuffer_(nullptr)
@@ -10,34 +10,39 @@ Quad::Quad() :
 }
 
 
-Quad::~Quad()
+Dice::~Dice()
 {
 	Release();
 }
 
 
-HRESULT Quad::Initialize()
+HRESULT Dice::Initialize()
 {
 	HRESULT hr;
 
 	//// 頂点情報
 	//XMVECTOR vertices[] =
 	//{
-	//	XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	// 立方体の頂点（左上）
-	//	XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	// 立方体の頂点（右上）
-	//	XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	// 立方体の頂点（右下）
-	//	XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	// 立方体の頂点（左下）		
+	//	XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	//立方体の頂点（左上）
+	//	XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	//立方体の頂点（右上）
+	//	XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	//立方体の頂点（右下）
+	//	XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	//立方体の頂点（左下）		
 	//};
 
 	// 頂点情報
 	VERTEX vertices[] =
 	{
 		//手前
-		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },   // 立方体の頂点（左上）
-		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   // 立方体の頂点（右上）
-		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },   // 立方体の頂点（右下）
-		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },   // 立方体の頂点（左下）
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },   //立方体の頂点（左上）
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   //立方体の頂点（右上）
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },   //立方体の頂点（右下）
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },   //立方体の頂点（左下）
 
+		//奥
+		{ XMVectorSet(-1.0f, 1.0f, 1.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },   //立方体の頂点（左上）
+		{ XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f),XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   //立方体の頂点（右上）
+		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },   //立方体の頂点（右下）
+		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },   //立方体の頂点（左下）
 	};
 
 	// 頂点データ用バッファの設定
@@ -58,7 +63,12 @@ HRESULT Quad::Initialize()
 	}
 
 	//インデックス情報
-	int index[] = { 0,2,3, 0,1,2 };
+	int index[] = { 0,2,3, 0,1,2, 
+					1,6,2, 1,5,6,
+					4,1,0, 4,5,1,
+					3,6,7, 3,2,6,
+					4,3,7, 4,0,3,
+					5,7,6, 5,4,7, };
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -103,7 +113,7 @@ HRESULT Quad::Initialize()
 }
 
 
-void Quad::Draw(XMMATRIX& worldMatrix)
+void Dice::Draw(XMMATRIX& worldMatrix)
 {
 	//コンスタントバッファに渡す情報
 
@@ -113,7 +123,7 @@ void Quad::Draw(XMMATRIX& worldMatrix)
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
-	
+
 	//
 	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
 	Direct3D::pContext->PSSetSamplers(0, 1, &pSampler);
@@ -141,7 +151,7 @@ void Quad::Draw(XMMATRIX& worldMatrix)
 }
 
 
-void Quad::Release()
+void Dice::Release()
 {
 	pTexture_->Release();
 	SAFE_DELETE(pTexture_);

@@ -1,6 +1,7 @@
 #include "Direct3D.h"
 #include <d3dcompiler.h>
 
+
 //変数
 namespace Direct3D
 {
@@ -13,6 +14,7 @@ namespace Direct3D
 	ID3D11InputLayout* pVertexLayout = nullptr;	//頂点インプットレイアウト
 	ID3D11RasterizerState* pRasterizerState = nullptr;	//ラスタライザー
 }
+
 
 //初期化
 HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
@@ -94,6 +96,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	return S_OK;
 }
 
+
 //シェーダー準備
 HRESULT Direct3D::InitShader()
 {
@@ -111,12 +114,14 @@ HRESULT Direct3D::InitShader()
 		SAFE_RELEASE(pCompileVS);
 		return hr;
 	}
+
 	//頂点インプットレイアウト
 	D3D11_INPUT_ELEMENT_DESC layout[] = 
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(XMVECTOR) , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UV座標
 	};
-	hr = pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
+	hr = pDevice->CreateInputLayout(layout, 2, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, L"頂点インプットレイアウトに失敗しました", L"エラー", MB_OK);

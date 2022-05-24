@@ -1,15 +1,22 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
-#include "Quad.h"
+//#include "Quad.h"
 #include "Camera.h"
+#include "Dice.h"
+
+
 //定数宣言
 LPCWSTR WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;			//ウィンドウの幅
 const int WINDOW_HEIGHT = 600;			//ウィンドウの高さ
+
+
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-Quad* pQuad;
+
+
+
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -27,12 +34,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景（白）
+
 	RegisterClassEx(&wc); //クラスを登録
+
 	//ウィンドウサイズの計算
 	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
 	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
 	int winW = winRect.right - winRect.left;     //ウィンドウ幅
 	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
+
 	//ウィンドウを作成
 	HWND hWnd = CreateWindow(
 		WIN_CLASS_NAME,     //ウィンドウクラス名
@@ -47,21 +57,37 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		hInstance,          //インスタンス
 		NULL                //パラメータ（なし）
 	);
+
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
+	CoInitialize(nullptr);
+	CoUninitialize();
+
 	HRESULT hr;
+
+	//Direct3D初期化
 	hr = Direct3D::Initialize(WINDOW_WIDTH, WINDOW_HEIGHT, hWnd);
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
-	pQuad = new Quad;
-	hr = pQuad->Initialize();
+
+	//Quad* pQuad;
+	//pQuad = new Quad;
+	//hr = pQuad->Initialize();
+
+	Dice* pDice;
+	pDice = new Dice;
+	hr = pDice->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
+
+	//カメラ初期化
 	Camera::Initialize();
+	float rotate = 0;
+
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -79,21 +105,29 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//ゲームの処理
 			Direct3D::BeginDraw();
 
-			//描画処理
+			//アップデート
 			Camera::Update();
 
+			//描画処理
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate));
 
-			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
-			pQuad->Draw(mat);
+			pDice->Draw(mat);
 
+			//pQuad->Draw(mat);
+			rotate += 0.01;
+
+			//終了
 			Direct3D::EndDraw();
 		}
 	}
 
-	SAFE_DELETE(pQuad);
+	//SAFE_DELETE(pQuad);
+	SAFE_DELETE(pDice);
 	Direct3D::Release();
 	return 0;
 }
+
+
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
