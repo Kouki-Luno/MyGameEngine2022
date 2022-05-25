@@ -2,7 +2,6 @@
 #include"Direct3D.h"
 #include<DirectXMath.h>
 #include"Texture.h"
-//#include"Dice.h"
 
 using namespace DirectX;
 

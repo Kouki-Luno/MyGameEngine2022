@@ -86,7 +86,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	//カメラ初期化
 	Camera::Initialize();
-	float rotate = 0;
+	float rotate_x = 0;
+	float rotate_y = 0;
+
+
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -109,12 +112,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Camera::Update();
 
 			//描画処理
-			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate));
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate_y)) * XMMatrixRotationX(XMConvertToRadians(rotate_x));;
+
 
 			pDice->Draw(mat);
 
+
 			//pQuad->Draw(mat);
-			rotate += 0.01;
+			rotate_x += 0.04;
+			rotate_y += 0.05;
 
 			//終了
 			Direct3D::EndDraw();
