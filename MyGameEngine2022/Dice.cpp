@@ -33,40 +33,40 @@ HRESULT Dice::Initialize()
 	VERTEX vertices[] =
 	{
 		//1
-		{ XMVectorSet(-1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)  },  //立方体の頂点（左上）0
-		{ XMVectorSet(1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f) },  //立方体の頂点（右上）1
-		{ XMVectorSet(1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },  //立方体の頂点（右下）2
-		{ XMVectorSet(-1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f)  },  //立方体の頂点（左下）3
+		{ XMVectorSet(-1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f)  },  //立方体の頂点（左上）0
+		{ XMVectorSet(1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f) },  //立方体の頂点（右上）1
+		{ XMVectorSet(1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f) },  //立方体の頂点（右下）2
+		{ XMVectorSet(-1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f) ,	XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f)},  //立方体の頂点（左下）3
 
 		//2
-		{ XMVectorSet(1.0f, 1.0f, -1.0f, 0.0f),		XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f) },	 //立方体の頂点（左上）4
-		{ XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f)  },	 //立方体の頂点（右上）5
-		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f)  },  //立方体の頂点（右下）6
-		{ XMVectorSet(1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },  //立方体の頂点（左下）7
+		{ XMVectorSet(1.0f, 1.0f, -1.0f, 0.0f),		XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f),	XMVectorSet(1.0f,0.0f,0.0f, 0.0f) },	 //立方体の頂点（左上）4
+		{ XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f),	XMVectorSet(1.0f,0.0f,0.0f, 0.0f)  },	 //立方体の頂点（右上）5
+		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f),	XMVectorSet(1.0f,0.0f,0.0f, 0.0f)  },  //立方体の頂点（右下）6
+		{ XMVectorSet(1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(1.0f,0.0f,0.0f, 0.0f) },  //立方体の頂点（左下）7
 
 		//3
-		{ XMVectorSet(1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f)  },  //立方体の頂点（左上）8
-		{ XMVectorSet(-1.0f, 1.0f, -1.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f) },  //立方体の頂点（右上）9
-		{ XMVectorSet(-1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f) },  //立方体の頂点（右下）10
-		{ XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f)  },  //立方体の頂点（左下）11
+		{ XMVectorSet(1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,1.0f,0.0f, 0.0f)  },  //立方体の頂点（左上）8
+		{ XMVectorSet(-1.0f, 1.0f, -1.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,1.0f,0.0f, 0.0f) },  //立方体の頂点（右上）9
+		{ XMVectorSet(-1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,1.0f,0.0f, 0.0f) },  //立方体の頂点（右下）10
+		{ XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,1.0f,0.0f, 0.0f)  },  //立方体の頂点（左下）11
 
 		//4
-		{ XMVectorSet(-1.0f,  -1.0f, -1.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f) },  //立方体の頂点（左上）12
-		{ XMVectorSet(1.0f,  -1.0f, -1.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)  },  //立方体の頂点（右上）13
-		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(1.0f, 0.5f, 0.0f, 0.0f)  },  //立方体の頂点（右下）14
-		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f) },  //立方体の頂点（左下）15
+		{ XMVectorSet(-1.0f,  -1.0f, -1.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,-1.0f,0.0f, 0.0f) },  //立方体の頂点（左上）12
+		{ XMVectorSet(1.0f,  -1.0f, -1.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,-1.0f,0.0f, 0.0f)  },  //立方体の頂点（右上）13
+		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(1.0f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,-1.0f,0.0f, 0.0f)  },  //立方体の頂点（右下）14
+		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,-1.0f,0.0f, 0.0f) },  //立方体の頂点（左下）15
 
 		//5
-		{ XMVectorSet(-1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f)  },	 //立方体の頂点（左上）16
-		{ XMVectorSet(-1.0f, 1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },	 //立方体の頂点（右上）17
-		{ XMVectorSet(-1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f) },  //立方体の頂点（右下）18
-		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)  },  //立方体の頂点（左下）19
+		{ XMVectorSet(-1.0f, 1.0f, 1.0f, 0.0f),		XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f),	XMVectorSet(-1.0f,0.0f,0.0f, 0.0f)  },	 //立方体の頂点（左上）16
+		{ XMVectorSet(-1.0f, 1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(-1.0f,0.0f,0.0f, 0.0f) },	 //立方体の頂点（右上）17
+		{ XMVectorSet(-1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f),	XMVectorSet(-1.0f,0.0f,0.0f, 0.0f) },  //立方体の頂点（右下）18
+		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(-1.0f,0.0f,0.0f, 0.0f) },  //立方体の頂点（左下）19
 
 		//6
-		{ XMVectorSet(1.0f,  1.0f, 1.0f, 0.0f),		XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },  //立方体の頂点（左上）20
-		{ XMVectorSet(-1.0f,  1.0f, 1.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f)  },  //立方体の頂点（右上）21
-		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(0.5f, 1.0f, 0.0f, 0.0f)  },  //立方体の頂点（右下）22
-		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f) },  //立方体の頂点（左下）23
+		{ XMVectorSet(1.0f,  1.0f, 1.0f, 0.0f),		XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,1.0f, 0.0f) },  //立方体の頂点（左上）20
+		{ XMVectorSet(-1.0f,  1.0f, 1.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,1.0f, 0.0f)  },  //立方体の頂点（右上）21
+		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(0.5f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,1.0f, 0.0f)  },  //立方体の頂点（右下）22
+		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,1.0f, 0.0f) },  //立方体の頂点（左下）23
 
 
 	};
@@ -145,6 +145,7 @@ void Dice::Draw(XMMATRIX& worldMatrix)
 
 	CONSTANT_BUFFER cb;
 	cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.matW = XMMatrixTranspose(worldMatrix);
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める

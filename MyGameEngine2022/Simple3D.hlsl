@@ -11,6 +11,7 @@ SamplerState	g_sampler : register(s0);	//サンプラー
 cbuffer global
 {
 	float4x4	matWVP;			// ワールド・ビュー・プロジェクションの合成行列
+	float4x4	matW;	//ワールド行列
 };
 
 //───────────────────────────────────────
@@ -20,13 +21,14 @@ struct VS_OUT
 {
 	float4 pos    : SV_POSITION;	//位置
 	float2 uv	: TEXCOORD;			//UV座標
+	float4 color	: COLOR;	//色（明るさ）
 };
 
 //───────────────────────────────────────
 // 頂点シェーダ
 //───────────────────────────────────────
 
-VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
+VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 {
 	//ピクセルシェーダーへ渡す情報
 	VS_OUT outData;
@@ -35,6 +37,14 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
 	//スクリーン座標に変換し、ピクセルシェーダーへ
 	outData.pos = mul(pos, matWVP);
 	outData.uv = uv;
+
+	//法線を回転
+	normal = mul(pos, matW);
+
+	float4 light = float4(1, 0, 0, 0);
+	light = normalize(light);
+	//outData.color = dot(normal, light);
+	outData.color = clamp(dot(normal, light), 0, 1);
 
 	//まとめて出力
 
@@ -47,7 +57,12 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-	return g_texture.Sample(g_sampler, inData.uv);
+	//return g_texture.Sample(g_sampler, inData.uv) * inData.color;
+
+	float4 diffuse = g_texture.Sample(g_sampler, inData.uv) * inData.color;
+	float4 ambient = g_texture.Sample(g_sampler, inData.uv) * float4(0.2, 0.2, 0.2, 1);
+	return diffuse + ambient;
+
 
 	//if (inData.pos.x < 400)
 	//{
