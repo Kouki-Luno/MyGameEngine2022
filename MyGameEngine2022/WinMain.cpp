@@ -2,8 +2,9 @@
 #include <Windows.h>
 #include "Direct3D.h"
 //#include "Quad.h"
-#include "Camera.h"
-#include "Dice.h"
+//#include "Camera.h"
+//#include "Dice.h"
+#include "Sprite.h"
 
 
 //定数宣言
@@ -76,18 +77,22 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//pQuad = new Quad;
 	//hr = pQuad->Initialize();
 
-	Dice* pDice;
-	pDice = new Dice;
-	hr = pDice->Initialize();
+	//Quad* pQuad;
+	//pQuad = new Quad;
+	//hr = pQuad->Initialize();
+
+	Sprite* pSprite;
+	pSprite = new Sprite;
+	hr = pSprite->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
 
 	//カメラ初期化
-	Camera::Initialize();
-	float rotate_x = 0;
-	float rotate_y = 0;
+	//Camera::Initialize();
+	//float rotate_x = 0;
+	//float rotate_y = 0;
 
 
 
@@ -109,29 +114,30 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::BeginDraw();
 
 			//アップデート
-			Camera::Update();
+			//Camera::Update();
 
 			//描画処理
-			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate_y)) * XMMatrixRotationX(XMConvertToRadians(rotate_x));;
+			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate)) * XMMatrixRotationX(XMConvertToRadians(rotate));;
 			
 			static float x = -5;
 			x += 0.0002f;
 			//XMMATRIX mat = XMMatrixTranslation(x, 0, 0);//移動
 			//XMMATRIX mat = XMMatrixScaling(x, 0, 0);//拡大
 			
-			pDice->Draw(mat);
+			pSprite->Draw();
 						
-			//pQuad->Draw(mat);
-			rotate_x += 0.04;
-			rotate_y += 0.05;
+			//Dice->Draw(mat);
+			//rotate_x += 0.04;
+			//rotate_y += 0.05;
 
 			//終了
 			Direct3D::EndDraw();
 		}
 	}
 
+	//SAFE_DELETE(pDice);
 	//SAFE_DELETE(pQuad);
-	SAFE_DELETE(pDice);
+	SAFE_DELETE(pSprite);
 	Direct3D::Release();
 	return 0;
 }
