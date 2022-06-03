@@ -105,6 +105,8 @@ HRESULT Quad::Initialize()
 
 void Quad::Draw(XMMATRIX& worldMatrix)
 {
+	Direct3D::SetShader(SHADER_3D);
+
 	//コンスタントバッファに渡す情報
 
 	CONSTANT_BUFFER cb;

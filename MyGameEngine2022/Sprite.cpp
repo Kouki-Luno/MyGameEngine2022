@@ -86,8 +86,6 @@ HRESULT Sprite::Initialize()
 	cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	cb.MiscFlags = 0;
 	cb.StructureByteStride = 0;
-
-	// コンスタントバッファの作成
 	hr = Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
@@ -103,8 +101,10 @@ HRESULT Sprite::Initialize()
 }
 
 
-void Sprite::Draw()//XMMATRIX& worldMatrix)
+void Sprite::Draw(XMMATRIX& worldMatrix)
 {
+	Direct3D::SetShader(SHADER_2D);
+
 	//コンスタントバッファに渡す情報
 
 	CONSTANT_BUFFER cb;

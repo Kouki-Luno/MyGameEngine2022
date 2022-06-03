@@ -15,6 +15,13 @@ using namespace DirectX;
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+enum SHADER_TYPE
+{
+	SHADER_2D,
+	SHADER_3D,
+	SHADER_MAX
+};
+
 namespace Direct3D
 
 {
@@ -23,6 +30,10 @@ namespace Direct3D
 
 	//シェーダー準備
 	HRESULT InitShader();
+	HRESULT InitShader2D();
+	HRESULT InitShader3D();
+
+	void SetShader(SHADER_TYPE type);
 
 	//描画開始
 	void BeginDraw();

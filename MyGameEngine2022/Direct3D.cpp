@@ -2,6 +2,8 @@
 #include <d3dcompiler.h>
 
 
+
+
 //変数
 namespace Direct3D
 {
@@ -9,12 +11,16 @@ namespace Direct3D
 	ID3D11DeviceContext* pContext = nullptr;		//デバイスコンテキスト
 	IDXGISwapChain* pSwapChain = nullptr;		//スワップチェイン
 	ID3D11RenderTargetView* pRenderTargetView = nullptr;	//レンダーターゲットビュー
-	ID3D11VertexShader* pVertexShader = nullptr;	//頂点シェーダー
-	ID3D11PixelShader* pPixelShader = nullptr;		//ピクセルシェーダー
-	ID3D11InputLayout* pVertexLayout = nullptr;	//頂点インプットレイアウト
-	ID3D11RasterizerState* pRasterizerState = nullptr;	//ラスタライザー
-}
 
+	struct SHADER_BUNDLE
+	{
+		ID3D11VertexShader* pVertexShader = nullptr;	//頂点シェーダー
+		ID3D11PixelShader* pPixelShader = nullptr;		//ピクセルシェーダー
+		ID3D11InputLayout* pVertexLayout = nullptr;	//頂点インプットレイアウト
+		ID3D11RasterizerState* pRasterizerState = nullptr;	//ラスタライザー
+	};
+	SHADER_BUNDLE shaderBundle[2];
+}
 
 //初期化
 HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
@@ -159,7 +165,7 @@ HRESULT Direct3D::InitShader()
 	ID3DBlob* pCompileVS = nullptr;
 	D3DCompileFromFile(L"Simple2D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
 	assert(pCompileVS != nullptr);
-	hr = pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
+	hr = pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &shaderBundle[SHADER_3D].pVertexShader);
 	//hr = E_FAIL;
 	if (FAILED(hr))
 	{
@@ -169,13 +175,13 @@ HRESULT Direct3D::InitShader()
 	}
 
 	//頂点インプットレイアウト
-	D3D11_INPUT_ELEMENT_DESC layout[] = 
+	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(XMVECTOR) , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UV座標
 		{ "NORMAL",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(XMVECTOR) * 2 ,	D3D11_INPUT_PER_VERTEX_DATA, 0 },//法線
 	};
-	hr = pDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
+	hr = pDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &shaderBundle[SHADER_3D].pVertexLayout);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, L"頂点インプットレイアウトに失敗しました", L"エラー", MB_OK);
@@ -187,7 +193,7 @@ HRESULT Direct3D::InitShader()
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple2D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	assert(pCompilePS != nullptr);
-	hr = pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
+	hr = pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &shaderBundle[SHADER_3D].pPixelShader);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, L"ピクセルシェーダーの作成に失敗しました", L"エラー", MB_OK);
@@ -200,7 +206,7 @@ HRESULT Direct3D::InitShader()
 	rdc.CullMode = D3D11_CULL_BACK;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	rdc.FrontCounterClockwise = FALSE;
-	hr = pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
+	hr = pDevice->CreateRasterizerState(&rdc, &shaderBundle[SHADER_3D].pRasterizerState);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, L"ラスタライザ作成に失敗しました", L"エラー", MB_OK);
@@ -208,14 +214,26 @@ HRESULT Direct3D::InitShader()
 		return hr;
 	}
 
-	//それぞれをデバイスコンテキストにセット
-	pContext->VSSetShader(pVertexShader, NULL, 0);	//頂点シェーダー
-	pContext->PSSetShader(pPixelShader, NULL, 0);	//ピクセルシェーダー
-	pContext->IASetInputLayout(pVertexLayout);	//頂点インプットレイアウト
-	pContext->RSSetState(pRasterizerState);		//ラスタライザー
 
 }
+void Direct3D::SetShader(SHADER_TYPE type)
+{
+	//それぞれをデバイスコンテキストにセット
+	pContext->VSSetShader(shaderBundle[type].pVertexShader, NULL, 0);	//頂点シェーダー
+	pContext->PSSetShader(shaderBundle[type].pPixelShader, NULL, 0);	//ピクセルシェーダー
+	pContext->IASetInputLayout(shaderBundle[type].pVertexLayout);	//頂点インプットレイアウト
+	pContext->RSSetState(shaderBundle[type].pRasterizerState);		//ラスタライザー
+}
 
+HRESULT Direct3D::InitShader2D()
+{
+	return S_OK;
+}
+
+HRESULT Direct3D::InitShader3D()
+{
+	return S_OK;
+}
 
 //描画開始
 void Direct3D::BeginDraw()
@@ -242,10 +260,10 @@ void Direct3D::EndDraw()
 void Direct3D::Release()
 
 {
-	pRasterizerState->Release();
-	pVertexLayout->Release();
-	pPixelShader->Release();
-	pVertexShader->Release();
+	//pRasterizerState->Release();
+	//pVertexLayout->Release();
+	//pPixelShader->Release();
+	//pVertexShader->Release();
 
 	pRenderTargetView->Release();
 	pSwapChain->Release();

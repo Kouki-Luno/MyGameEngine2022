@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include "Direct3D.h"
 //#include "Quad.h"
-//#include "Camera.h"
+#include "Camera.h"
 //#include "Dice.h"
 #include "Sprite.h"
 
@@ -90,7 +90,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 
 	//カメラ初期化
-	//Camera::Initialize();
+	Camera::Initialize();
 	//float rotate_x = 0;
 	//float rotate_y = 0;
 
@@ -114,17 +114,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::BeginDraw();
 
 			//アップデート
-			//Camera::Update();
+			Camera::Update();
 
 			//描画処理
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate)) * XMMatrixRotationX(XMConvertToRadians(rotate));;
 			
-			static float x = -5;
-			x += 0.0002f;
+			//static float x = 0;
+
+			//x += 0.0002f;
 			//XMMATRIX mat = XMMatrixTranslation(x, 0, 0);//移動
 			//XMMATRIX mat = XMMatrixScaling(x, 0, 0);//拡大
 			
-			pSprite->Draw();
+			XMMATRIX mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
+			pSprite->Draw(mat);
 						
 			//Dice->Draw(mat);
 			//rotate_x += 0.04;
