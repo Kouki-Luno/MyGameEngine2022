@@ -101,7 +101,7 @@ HRESULT Sprite::Initialize()
 }
 
 
-void Sprite::Draw(XMMATRIX& worldMatrix)
+void Sprite::Draw(/*Transform& transform*/ XMMATRIX & worldMatrix)
 {
 	Direct3D::SetShader(SHADER_2D);
 

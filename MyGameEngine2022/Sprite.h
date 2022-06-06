@@ -5,6 +5,10 @@
 
 using namespace DirectX;
 
+
+class Sprite
+{
+
 //コンスタントバッファー
 struct CONSTANT_BUFFER
 {
@@ -18,8 +22,7 @@ struct VERTEX
 	XMVECTOR uv;
 };
 
-class Sprite
-{
+
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
 	ID3D11Buffer* pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ

@@ -3,7 +3,7 @@
 #include "Direct3D.h"
 //#include "Quad.h"
 #include "Camera.h"
-//#include "Dice.h"
+#include "Dice.h"
 #include "Sprite.h"
 
 
@@ -77,9 +77,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//pQuad = new Quad;
 	//hr = pQuad->Initialize();
 
-	//Quad* pQuad;
-	//pQuad = new Quad;
-	//hr = pQuad->Initialize();
+	Dice* pDice;
+	pDice = new Dice;
+	hr = pDice->Initialize();
 
 	Sprite* pSprite;
 	pSprite = new Sprite;
@@ -125,7 +125,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX mat = XMMatrixTranslation(x, 0, 0);//ˆÚ“®
 			//XMMATRIX mat = XMMatrixScaling(x, 0, 0);//Šg‘å
 			
-			XMMATRIX mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
+			static float angle = 0;
+			angle += 0.05;
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0, 3, 0);
+			pDice->Draw(mat);
+
+			mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
 			pSprite->Draw(mat);
 						
 			//Dice->Draw(mat);
