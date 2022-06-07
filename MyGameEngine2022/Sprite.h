@@ -22,9 +22,15 @@ struct VERTEX
 	XMVECTOR uv;
 };
 
-
+protected:
+	DWORD	vertexNum_;		//頂点数
+	VERTEX* vertices_;		//頂点情報
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
+
+	DWORD indexNum;			//インデックス数
+	int* index_;			//インデックス情報
 	ID3D11Buffer* pIndexBuffer_;
+
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
 
 	Texture* pTexture_;

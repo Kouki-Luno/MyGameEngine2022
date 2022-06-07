@@ -142,8 +142,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		}
 	}
 
-	//SAFE_DELETE(pDice);
+	SAFE_DELETE(pDice);
 	//SAFE_DELETE(pQuad);
+
 	SAFE_DELETE(pSprite);
 	Direct3D::Release();
 	return 0;

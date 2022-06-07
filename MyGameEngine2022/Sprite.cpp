@@ -3,9 +3,9 @@
 
 
 Sprite::Sprite() :
-	pVertexBuffer_(nullptr),
-	pIndexBuffer_(nullptr),
-	pConstantBuffer_(nullptr)
+	vertexNum_(0), vertices_(nullptr), pVertexBuffer_(nullptr),
+	indexNum(0), index_(nullptr), pIndexBuffer_(nullptr),
+	pConstantBuffer_(nullptr), pTexture_(nullptr)
 {
 }
 
