@@ -2,6 +2,7 @@
 #include"Direct3D.h"
 #include<DirectXMath.h>
 #include"Texture.h"
+#include "Transform.h"
 
 using namespace DirectX;
 
@@ -35,7 +36,8 @@ public:
 
 	HRESULT Initialize();
 
-	void Draw(XMMATRIX& worldMatrix);
+	//void Draw(XMMATRIX& worldMatrix);
+	void Draw(Transform& transform);
 
 	void Release();
 

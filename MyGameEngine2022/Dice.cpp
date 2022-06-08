@@ -1,5 +1,6 @@
 #include "Dice.h"
 #include "Camera.h"
+#include "Transform.h"
 
 
 Dice::Dice() :
@@ -139,15 +140,17 @@ HRESULT Dice::Initialize()
 }
 
 
-void Dice::Draw(XMMATRIX& worldMatrix)
+void Dice::Draw(Transform& transform/*XMMATRIX& worldMatrix*/)
 {
 	Direct3D::SetShader(SHADER_3D);
 
 	//コンスタントバッファに渡す情報
 
+	transform.Calclation();
+
 	CONSTANT_BUFFER cb;
-	cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
-	cb.matW = XMMatrixTranspose(worldMatrix);
+	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix()/*worldMatrix*/ * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.matW = XMMatrixTranspose(transform.GetNormalMatrix()/*worldMatrix*/);
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める

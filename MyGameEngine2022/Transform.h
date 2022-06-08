@@ -26,6 +26,9 @@ public:
 
 	//ワールド行列を取得
 	XMMATRIX GetWorldMatrix();
+
+	//法線変形用行列を取得
+	XMMATRIX GetNormalMatrix();
 };
 
 
