@@ -1,6 +1,7 @@
 #include "Fbx.h"
 #include "Direct3D.h"
 #include "Camera.h"
+#include "Texture.h"
 
 
 Fbx::Fbx() :
@@ -36,18 +37,19 @@ HRESULT Fbx::Load(std::string fileName)
 	//各情報の個数を取得
 	vertexCount_ = pMesh->GetControlPointsCount();	//頂点の数
 	polygonCount_ = pMesh->GetPolygonCount();	//ポリゴンの数
+	materialCount_ = pNode->GetMaterialCount();//マテリアルの数
 
 	InitVertex(pMesh);		//頂点バッファ準備
 	InitIndex(pMesh);		//インデックスバッファ準備
 	IntConstantBuffer();	//コンスタントバッファ準備
+	InitMaterial(pNode);
 
 	//マネージャ解放
 	pFbxManager->Destroy();
     return S_OK;
 }
 
-
-
+/////////////////////////////////////////////////////////////////////////
 
 //頂点バッファ準備
 void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
@@ -116,6 +118,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* pMesh)
 	Direct3D::pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 }
 
+//コンスタントバッファ準備
 void Fbx::IntConstantBuffer()
 {
 	D3D11_BUFFER_DESC cb;
@@ -129,6 +132,48 @@ void Fbx::IntConstantBuffer()
 	// コンスタントバッファの作成
 	Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 }
+
+//マテリアル
+void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
+{
+	pMaterialList_ = new int[materialCount_ * 4];
+
+	for (int i = 0; i < 4; i++)
+	{
+		//i番目のマテリアル情報を取得
+		FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+
+		//テクスチャ情報
+		FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+		//テクスチャの数数
+		int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
+
+		//テクスチャあり
+		if ()
+		{
+			FbxFileTexture* textureInfo = lProperty.GetSrcObject<FbxFileTexture>(0);
+			const char* textureFilePath = textureInfo->GetRelativeFileName();
+
+			//ファイルからテクスチャ作成
+			pMaterialList_[i].pTexture = ●●●●●●●●;
+			pMaterialList_[i].pTexture->●●●●●●●●●●●●;
+		}
+
+		//テクスチャ無し
+		else
+		{
+			FbxFileTexture* textureInfo = lProperty.GetSrcObject<FbxFileTexture>(0);
+			const char* textureFilePath = textureInfo->GetRelativeFileName();
+
+			//ファイルからテクスチャ作成
+			pMaterialList_[i].pTexture = nullptr;
+			//pMaterialList_[i].pTexture->●●●●●●●●●●●●;
+		}
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 void Fbx::Draw(Transform& transform)
 {

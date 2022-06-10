@@ -142,8 +142,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//rotate_x += 0.04;
 			//rotate_y += 0.05;
 
-			Transform diceTransform;
-			pFbx->Draw(diceTransform);
+			Transform odenTransform;
+			pFbx->Draw(odenTransform);
 
 			//I—¹
 			Direct3D::EndDraw();
