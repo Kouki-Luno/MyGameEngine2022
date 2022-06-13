@@ -39,10 +39,26 @@ HRESULT Fbx::Load(std::string fileName)
 	polygonCount_ = pMesh->GetPolygonCount();	//ポリゴンの数
 	materialCount_ = pNode->GetMaterialCount();//マテリアルの数
 
+	//現在のカレントディレクトリを覚えておく
+
+
+	char defaultCurrentDir[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH, (LPWSTR)defaultCurrentDir);
+
+	//引数のfileNameからディレクトリ部分を取得
+	char Dir[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH, (LPWSTR)Dir);
+
+	//カレントディレクトリ変更
+	SetCurrentDirectory(L"D:\GE2A21\MyGameEngine2022\MyGameEngine2022\Assets");
+
 	InitVertex(pMesh);		//頂点バッファ準備
 	InitIndex(pMesh);		//インデックスバッファ準備
 	IntConstantBuffer();	//コンスタントバッファ準備
 	InitMaterial(pNode);
+
+	//カレントディレクトリを元に戻す
+	SetCurrentDirectory((LPWSTR)defaultCurrentDir);
 
 	//マネージャ解放
 	pFbxManager->Destroy();
@@ -136,7 +152,7 @@ void Fbx::IntConstantBuffer()
 //マテリアル
 void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 {
-	pMaterialList_ = new int[materialCount_ * 4];
+	pMaterialList_ = new MATERIAL[materialCount_];
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -150,18 +166,25 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 		int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
 
 		//テクスチャあり
-		if ()
+		if (fileTextureCount != 0)
 		{
 			FbxFileTexture* textureInfo = lProperty.GetSrcObject<FbxFileTexture>(0);
 			const char* textureFilePath = textureInfo->GetRelativeFileName();
 
-			//ファイルからテクスチャ作成
-			pMaterialList_[i].pTexture = ●●●●●●●●;
-			pMaterialList_[i].pTexture->●●●●●●●●●●●●;
-		}
+			//ファイル名+拡張だけにする
+			LPWSTR name;// [_MAX_FNAME] ;	//ファイル名
+			char ext[_MAX_EXT];	//拡張子
+			_splitpath_s(textureFilePath, nullptr, 0, nullptr, 0, name, _MAX_FNAME, ext, _MAX_EXT);
+			wsprintf((LPWSTR)name, L"Assets/%s%s", name, ext);
 
-		//テクスチャ無し
-		else
+			//ファイルからテクスチャ作成
+			pMaterialList_[i].pTexture = new Texture;
+			pMaterialList_[i].pTexture->Load((LPWSTR)name);
+			wchar_t wtext[FILENAME_MAX];
+			size_t ret;
+			mbstowcs_s(&ret, wtext, textureFilePath, strlen(textureFilePath));
+		}
+		else//テクスチャ無し
 		{
 			FbxFileTexture* textureInfo = lProperty.GetSrcObject<FbxFileTexture>(0);
 			const char* textureFilePath = textureInfo->GetRelativeFileName();

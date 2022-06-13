@@ -4,6 +4,8 @@
 #include <fbxsdk.h>
 #include <string>
 #include "Transform.h"
+#include "Texture.h"
+
 
 #pragma comment(lib, "LibFbxSDK-MT.lib")
 #pragma comment(lib, "LibXml2-MT.lib")
@@ -28,6 +30,7 @@ class Fbx
 	{
 		XMVECTOR position;
 	};
+
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
@@ -35,6 +38,7 @@ class Fbx
 	ID3D11Buffer* pVertexBuffer_;
 	ID3D11Buffer* pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;
+
 	MATERIAL* pMaterialList_;
 
 public:
@@ -45,8 +49,10 @@ public:
 	void    Draw(Transform& transform);
 	void    Release();
 
+private:
 	void InitVertex(fbxsdk::FbxMesh* pMesh);
 	void InitIndex(fbxsdk::FbxMesh* pMesh);
 	void IntConstantBuffer();
 	void InitMaterial(fbxsdk::FbxNode* pNode);
+
 };
