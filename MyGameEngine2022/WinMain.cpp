@@ -6,6 +6,7 @@
 //#include "Dice.h"
 //#include "Sprite.h"
 #include "Fbx.h"
+#include "Transform.h"
 
 
 //íËêîêÈåæ
@@ -92,7 +93,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Fbx* pFbx;
 	pFbx = new Fbx;
-	hr = pFbx->Load("Assets/ODEN.fbx");
+	hr = pFbx->Load("Assets/ODEN1.fbx");
 
 	//ÉJÉÅÉâèâä˙âª
 	Camera::Initialize();
@@ -142,7 +143,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//rotate_x += 0.04;
 			//rotate_y += 0.05;
 
+			static float angle = 0;
+			angle += 0.05;
+
 			Transform odenTransform;
+			odenTransform.rotate_.y = angle;
 			pFbx->Draw(odenTransform);
 
 			//èIóπ
@@ -155,6 +160,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//SAFE_DELETE(pSprite);
 	SAFE_DELETE(pFbx);
 	Direct3D::Release();
+	CoUninitialize();
 	return 0;
 }
 
