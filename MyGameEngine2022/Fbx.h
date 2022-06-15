@@ -20,6 +20,7 @@ class Fbx
 	struct MATERIAL
 	{
 		Texture* pTexture;
+		XMFLOAT4	diffuse;
 	};
 
 	struct CONSTANT_BUFFER
@@ -32,6 +33,7 @@ class Fbx
 	{
 		XMVECTOR position;
 		XMVECTOR uv;
+		XMVECTOR normal;
 	};
 
 	int vertexCount_;	//í∏ì_êî

@@ -54,8 +54,10 @@ HRESULT Fbx::Load(std::string fileName)
 	IntConstantBuffer();	//コンスタントバッファ準備
 	InitMaterial(pNode);
 
+
 	//終わったら戻す
 	SetCurrentDirectory(defaultCurrentDir);
+
 
 	//マネージャ解放
 	pFbxManager->Destroy();
@@ -83,6 +85,11 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
 			int uvIndex = pMesh->GetTextureUVIndex(poly, vertex, FbxLayerElement::eTextureDiffuse);
 			FbxVector2  uv = pUV->GetDirectArray().GetAt(uvIndex);
 			vertices[index].uv = XMVectorSet((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f, 0.0f);
+
+			//頂点の法線
+			FbxVector4 Normal;
+			pMesh->GetPolygonVertexNormal(poly, vertex, Normal);	//ｉ番目のポリゴンの、ｊ番目の頂点の法線をゲット
+			vertices[index].normal = XMVectorSet((float)Normal[0], (float)Normal[1], (float)Normal[2], 0.0f);
 		}
 	}
 	HRESULT hr;
@@ -101,7 +108,10 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
 		MessageBox(NULL, L"頂点バッファの作成に失敗しました", L"エラー", MB_OK);
 		//return hr;
 	}
+
+
 }
+
 //インデックスバッファ準備
 void Fbx::InitIndex(fbxsdk::FbxMesh* pMesh)
 {
@@ -129,6 +139,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* pMesh)
 					count++;
 				}
 			}
+
 		}
 		indexCount_[i]= count;
 
@@ -143,6 +154,8 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* pMesh)
 		InitData.pSysMem = index;
 		InitData.SysMemPitch = 0;
 		InitData.SysMemSlicePitch = 0;
+
+
 
 		HRESULT hr;
 		hr = Direct3D::pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer_[i]);
@@ -207,6 +220,11 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 		else
 		{
 			pMaterialList_[i].pTexture = nullptr;
+
+			//マテリアルの色
+			FbxSurfaceLambert* pMaterial = (FbxSurfaceLambert*)pNode->GetMaterial(i);
+			FbxDouble3  diffuse = pMaterial->Diffuse;
+			pMaterialList_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], 1.0f);
 		}
 	}
 }
