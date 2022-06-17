@@ -93,7 +93,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Fbx* pFbx;
 	pFbx = new Fbx;
-	hr = pFbx->Load("Assets/ODEN2.fbx");
+	hr = pFbx->Load("Assets/BB.fbx");
 
 	//ƒJƒƒ‰‰Šú‰»
 	Camera::Initialize();
