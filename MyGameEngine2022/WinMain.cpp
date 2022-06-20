@@ -7,6 +7,7 @@
 //#include "Sprite.h"
 #include "Fbx.h"
 #include "Transform.h"
+#include "Input.h"
 
 
 //定数宣言
@@ -66,23 +67,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	CoInitialize(nullptr);
 	CoUninitialize();
 
-	HRESULT hr;
-
 	//Direct3D初期化
+	HRESULT hr;
 	hr = Direct3D::Initialize(WINDOW_WIDTH, WINDOW_HEIGHT, hWnd);
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
 
+	//DirectInputの初期化
+	Input::Initialize(hWnd);
+
 	//Quad* pQuad;
 	//pQuad = new Quad;
 	//hr = pQuad->Initialize();
-
+	//
 	//Dice* pDice;
 	//pDice = new Dice;
 	//hr = pDice->Initialize();
-
+	//
 	//Sprite* pSprite;
 	//pSprite = new Sprite;
 	//hr = pSprite->Initialize();
@@ -107,6 +110,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	ZeroMemory(&msg, sizeof(msg));
 	while (msg.message != WM_QUIT)
 	{
+
 		//メッセージあり
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
 		{
@@ -119,26 +123,29 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//ゲームの処理
 			Direct3D::BeginDraw();
 
+			//入力情報の更新
+			Input::Update();;
+
 			//アップデート
 			Camera::Update();
 
 			//描画処理
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate)) * XMMatrixRotationX(XMConvertToRadians(rotate));;
-			
+			//
 			//static float x = 0;
-
+			//
 			//x += 0.0002f;
 			//XMMATRIX mat = XMMatrixTranslation(x, 0, 0);//移動
 			//XMMATRIX mat = XMMatrixScaling(x, 0, 0);//拡大
-			
+			//
 			//static float angle = 0;
 			//angle += 0.05;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0, 3, 0);
 			//pDice->Draw(mat);
-
+			//
 			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
 			//pSprite->Draw(mat);
-						
+			//		
 			//Dice->Draw(mat);
 			//rotate_x += 0.04;
 			//rotate_y += 0.05;
@@ -147,7 +154,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			angle += 0.05;
 
 			Transform odenTransform;
-			odenTransform.rotate_.y = angle;
+			odenTransform.rotate_.x = angle;
 			pFbx->Draw(odenTransform);
 
 			//終了
@@ -158,8 +165,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//SAFE_DELETE(pDice);
 	//SAFE_DELETE(pQuad);
 	//SAFE_DELETE(pSprite);
+
 	SAFE_DELETE(pFbx);
 	Direct3D::Release();
+	Input::Release();
 	CoUninitialize();
 	return 0;
 }

@@ -18,21 +18,29 @@ HRESULT Fbx::Load(std::string fileName)
 {
 	//マネージャを生成
 	FbxManager* pFbxManager = FbxManager::Create();
+
+
 	//インポーターを生成
 	FbxImporter* fbxImporter = FbxImporter::Create(pFbxManager, "imp");
 	fbxImporter->Initialize(fileName.c_str(), -1, pFbxManager->GetIOSettings());
+
+
 	//シーンオブジェクトにFBXファイルの情報を流し込む
 	FbxScene* pFbxScene = FbxScene::Create(pFbxManager, "fbxscene");
 	fbxImporter->Import(pFbxScene);
 	fbxImporter->Destroy();
+
+
 	//メッシュ情報を取得
 	FbxNode* pRootNode = pFbxScene->GetRootNode();
 	FbxNode* pNode = pRootNode->GetChild(0);
 	FbxMesh* pMesh = pNode->GetMesh();
 
+
 	//現在のカレントディレクトリを覚えておく
 	WCHAR defaultCurrentDir[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, defaultCurrentDir);
+
 
 	//引数のfileNameからディレクトリ部分を取得
 	wchar_t wtext[FILENAME_MAX];
@@ -40,6 +48,7 @@ HRESULT Fbx::Load(std::string fileName)
 	mbstowcs_s(&ret, wtext, fileName.c_str(), fileName.length());
 	WCHAR dir[MAX_PATH];
 	_wsplitpath_s(wtext, nullptr, 0, dir, MAX_PATH, nullptr, 0, nullptr, 0);
+
 
 	//カレントディレクトリ変更
 	SetCurrentDirectory(dir);
@@ -68,6 +77,7 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
 {
 	//頂点情報を入れる配列
 	VERTEX* vertices = new VERTEX[vertexCount_];
+
 	//全ポリゴン
 	for (DWORD poly = 0; poly < polygonCount_; poly++)
 	{
@@ -76,6 +86,7 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
 		{
 			//調べる頂点の番号
 			int index = pMesh->GetPolygonVertex(poly, vertex);
+
 			//頂点の位置
 			FbxVector4 pos = pMesh->GetControlPointAt(index);
 			vertices[index].position = XMVectorSet((float)pos[0], (float)pos[1], (float)pos[2], 0.0f);
@@ -92,7 +103,9 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
 			vertices[index].normal = XMVectorSet((float)Normal[0], (float)Normal[1], (float)Normal[2], 0.0f);
 		}
 	}
+
 	HRESULT hr;
+
 	D3D11_BUFFER_DESC bd_vertex;
 	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexCount_;
 	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
@@ -102,6 +115,7 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* pMesh)
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = vertices;
+
 	hr = Direct3D::pDevice->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
@@ -175,8 +189,10 @@ void Fbx::IntConstantBuffer()
 	cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	cb.MiscFlags = 0;
 	cb.StructureByteStride = 0;
+
 	// コンスタントバッファの作成
 	HRESULT hr;
+
 	hr = Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
@@ -192,10 +208,13 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 	{
 		//i番目のマテリアル情報を取得
 		FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+
 		//テクスチャ情報
 		FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
 		//テクスチャの数数
 		int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
+
 		//テクスチャあり
 		if (fileTextureCount != 0)
 		{
@@ -215,9 +234,8 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 			mbstowcs_s(&ret, wtext, name, strlen(textureFilePath));
 
 			pMaterialList_[i].pTexture->Load(wtext);
-		}
-		//テクスチャ無し
-		else
+		}		
+		else//テクスチャ無し
 		{
 			pMaterialList_[i].pTexture = nullptr;
 
@@ -279,7 +297,7 @@ void Fbx::Release()
 	{
 		SAFE_RELEASE(pIndexBuffer_[i]);
 	}
-	SAFE_DELETE_ARRAY(pIndexBuffer_);
 
+	SAFE_DELETE_ARRAY(pIndexBuffer_);
 	SAFE_RELEASE(pVertexBuffer_);
 }
