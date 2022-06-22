@@ -8,6 +8,7 @@
 #include "Fbx.h"
 #include "Transform.h"
 #include "Input.h"
+#include "XInput.h"
 
 
 //定数宣言
@@ -111,6 +112,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	while (msg.message != WM_QUIT)
 	{
 
+
 		//メッセージあり
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
 		{
@@ -124,7 +126,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::BeginDraw();
 
 			//入力情報の更新
-			Input::Update();;
+			Input::Update();
+
+			//コントローラーのAボタンを押した
+			if (Input::IsPadButton(XINPUT_GAMEPAD_A))
+			{
+				PostQuitMessage(0);
+			}
 
 			//アップデート
 			Camera::Update();
