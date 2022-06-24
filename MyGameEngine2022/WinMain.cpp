@@ -1,13 +1,10 @@
 //インクルード
 #include <Windows.h>
-#include "Direct3D.h"
-//#include "Quad.h"
-#include "Camera.h"
-//#include "Dice.h"
-//#include "Sprite.h"
-#include "Fbx.h"
-#include "Transform.h"
-#include "Input.h"
+#include "Engine/Direct3D.h"
+#include "Engine/Camera.h"
+#include "Engine/Fbx.h"
+#include "Engine/Transform.h"
+#include "Engine/Input.h"
 #include "XInput.h"
 
 
@@ -79,31 +76,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//DirectInputの初期化
 	Input::Initialize(hWnd);
 
-	//Quad* pQuad;
-	//pQuad = new Quad;
-	//hr = pQuad->Initialize();
-	//
-	//Dice* pDice;
-	//pDice = new Dice;
-	//hr = pDice->Initialize();
-	//
-	//Sprite* pSprite;
-	//pSprite = new Sprite;
-	//hr = pSprite->Initialize();
-	//if (FAILED(hr))
-	//{
-	//	PostQuitMessage(0);
-	//}
-
-	Fbx* pFbx;
-	pFbx = new Fbx;
-	hr = pFbx->Load("Assets/BB.fbx");
 
 	//カメラ初期化
 	Camera::Initialize();
-	//float rotate_x = 0;
-	//float rotate_y = 0;
-
 
 
 	//メッセージループ（何か起きるのを待つ）
@@ -128,53 +103,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//入力情報の更新
 			Input::Update();
 
-			//コントローラーのAボタンを押した
-			if (Input::IsPadButton(XINPUT_GAMEPAD_A))
-			{
-				PostQuitMessage(0);
-			}
-
 			//アップデート
 			Camera::Update();
 
-			//描画処理
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(rotate)) * XMMatrixRotationX(XMConvertToRadians(rotate));;
-			//
-			//static float x = 0;
-			//
-			//x += 0.0002f;
-			//XMMATRIX mat = XMMatrixTranslation(x, 0, 0);//移動
-			//XMMATRIX mat = XMMatrixScaling(x, 0, 0);//拡大
-			//
-			//static float angle = 0;
-			//angle += 0.05;
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0, 3, 0);
-			//pDice->Draw(mat);
-			//
-			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
-			//pSprite->Draw(mat);
-			//		
-			//Dice->Draw(mat);
-			//rotate_x += 0.04;
-			//rotate_y += 0.05;
 
 			static float angle = 0;
 			angle += 0.05;
 
 			Transform odenTransform;
 			odenTransform.rotate_.x = angle;
-			pFbx->Draw(odenTransform);
 
 			//終了
 			Direct3D::EndDraw();
 		}
 	}
 
-	//SAFE_DELETE(pDice);
-	//SAFE_DELETE(pQuad);
-	//SAFE_DELETE(pSprite);
-
-	SAFE_DELETE(pFbx);
 	Direct3D::Release();
 	Input::Release();
 	CoUninitialize();

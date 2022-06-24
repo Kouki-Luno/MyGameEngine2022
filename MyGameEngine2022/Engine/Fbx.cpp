@@ -10,10 +10,14 @@ Fbx::Fbx() :
 	indexCount_(nullptr), pMaterialList_(nullptr)
 {
 }
+
+
 Fbx::~Fbx()
 {
 	Release();
 }
+
+
 HRESULT Fbx::Load(std::string fileName)
 {
 	//マネージャを生成
