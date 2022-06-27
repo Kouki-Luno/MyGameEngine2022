@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Engine/Transform.h"
+#include "Transform.h"
 #include <string>
 #include <list>
 
@@ -8,10 +8,10 @@ using namespace std;
 
 class GameObject
 {
-	list<GameObject*>	childList_;	//ゲームオブジェクトのリスト構造
-	Transform	transform_;			//Transformクラス
-	GameObject*	pParent_;			//ゲームオブジェクトなら誰でも「ポインタ」
-	string	objectName_;			//文字列
+	list<GameObject*>	childList_;		//ゲームオブジェクトのリスト構造
+	Transform			transform_;		//Transformクラス
+	GameObject*			pParent_;		//ゲームオブジェクトなら誰でも「ポインタ」
+	string				objectName_;	//文字列
 
 public:
 	GameObject();

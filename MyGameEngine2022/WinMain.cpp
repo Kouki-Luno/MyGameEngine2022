@@ -6,6 +6,8 @@
 #include "Engine/Transform.h"
 #include "Engine/Input.h"
 #include "XInput.h"
+#include "Engine/GameObject.h"
+#include "RootJob.h"
 
 
 //’è”éŒ¾
