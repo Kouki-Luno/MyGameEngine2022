@@ -7,8 +7,10 @@
 #include "Engine/Input.h"
 #include "XInput.h"
 #include "Engine/GameObject.h"
-#include "RootJob.h"
+#include "Engine/RootJob.h"
+#include <stdlib.h>
 
+#pragma comment(lib, "winmm.lib")
 
 //定数宣言
 LPCWSTR WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
@@ -19,7 +21,7 @@ const int WINDOW_HEIGHT = 600;			//ウィンドウの高さ
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
+RootJob* pRootJob;
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -67,6 +69,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	CoInitialize(nullptr);
 	CoUninitialize();
 
+
 	//Direct3D初期化
 	HRESULT hr;
 	hr = Direct3D::Initialize(WINDOW_WIDTH, WINDOW_HEIGHT, hWnd);
@@ -82,6 +85,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//カメラ初期化
 	Camera::Initialize();
 
+	pRootJob->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -99,8 +103,36 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			timeBeginPeriod(1);
+
+			static DWORD countFps = 0;
+			static DWORD startTime = timeGetTime();
+			DWORD nowTime = timeGetTime();
+			static DWORD lastUpdateTime = nowTime;
+
+			if (nowTime - startTime >= 1000)
+			{
+				WCHAR str[16];
+				wsprintf(str, L"%u", countFps);
+				SetWindowText(hWnd, str);
+
+				countFps = 0;
+				startTime = nowTime;
+			}
+
+			if ((nowTime - lastUpdateTime) * 60 <= 1000.0f)
+			{
+				continue;
+			}
+			lastUpdateTime = nowTime;
+
+			countFps++;
+
+
 			//ゲームの処理
 			Direct3D::BeginDraw();
+
+			pRootJob->DrawSub();
 
 			//入力情報の更新
 			Input::Update();

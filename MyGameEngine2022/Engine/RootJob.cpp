@@ -11,9 +11,17 @@ RootJob::~RootJob()
 
 void RootJob::Initialize(void)
 {
-	PlayScene* pPlayScene;
-	pPlayScene = new PlayScene();
+	Instantiate<PlayScene>(this);
+}
 
-	pPlayScene->Initialize();
-	childList_.œœœœœœ(pPlayScene);
+void RootJob::Update()
+{
+
+}
+
+void RootJob::Draw()
+{
+}
+void RootJob::Release()
+{
 }
