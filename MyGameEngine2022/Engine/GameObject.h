@@ -21,9 +21,11 @@ public:
 
 	virtual void Initialize() = 0;	//純粋仮想関数
 	virtual void Update() = 0;		//純粋仮想関数
+	void UpdateSub();
 	virtual void Draw() = 0;		//純粋仮想関数
 	void DrawSub();
-	virtual void Release(void) = 0;		//純粋仮想関数
+	virtual void Release(void) = 0;	//純粋仮想関数
+	void ReleaseSub();
 
 	template<class T>
 	void Instantiate(GameObject* parent)

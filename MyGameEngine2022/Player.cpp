@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Engine/Input.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent)
@@ -15,13 +16,23 @@ Player::~Player()
 void Player::Initialize()
 {
     pFbx = new Fbx;
-    pFbx->Load("Assets/oden.fbx");
+    pFbx->Load("Assets/ODEN2.fbx");
 }
 
 //更新
 void Player::Update()
 {
     transform_.rotate_.y++;
+
+	if (Input::IsKey(DIK_D))
+	{
+		transform_.position_.x += 0.03;
+	}
+
+	if (Input::IsKey(DIK_A))
+	{
+		transform_.position_.x -= 0.03;
+	}
 }
 
 //描画

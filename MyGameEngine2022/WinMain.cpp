@@ -2,11 +2,11 @@
 #include <Windows.h>
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
-#include "Engine/Fbx.h"
+//#include "Engine/Fbx.h"
 #include "Engine/Transform.h"
 #include "Engine/Input.h"
-#include "XInput.h"
-#include "Engine/GameObject.h"
+//#include "XInput.h"
+//#include "Engine/GameObject.h"
 #include "Engine/RootJob.h"
 #include <stdlib.h>
 
@@ -67,7 +67,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 	CoInitialize(nullptr);
-	CoUninitialize();
+	
 
 
 	//Direct3D初期化
@@ -85,6 +85,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//カメラ初期化
 	Camera::Initialize();
 
+	pRootJob = new RootJob;
 	pRootJob->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
@@ -128,29 +129,39 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			countFps++;
 
+			//入力情報の更新
+			Input::Update();
+			pRootJob->UpdateSub();
+
+			//
+			if (Input::IsKeyUp(DIK_ESCAPE))
+			{
+				static int cnt = 0;
+				cnt++;
+				if (cnt >= 3)
+				{
+					PostQuitMessage(0);
+				}
+			}
 
 			//ゲームの処理
 			Direct3D::BeginDraw();
 
 			pRootJob->DrawSub();
 
-			//入力情報の更新
-			Input::Update();
-
 			//アップデート
 			Camera::Update();
 
 
-			static float angle = 0;
-			angle += 0.05;
-
-			Transform odenTransform;
-			odenTransform.rotate_.x = angle;
-
 			//終了
 			Direct3D::EndDraw();
+
+			timeEndPeriod(1);
 		}
 	}
+
+	pRootJob->Release();
+	SAFE_DELETE(pRootJob);
 
 	Direct3D::Release();
 	Input::Release();
