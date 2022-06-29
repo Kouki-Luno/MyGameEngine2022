@@ -1,5 +1,8 @@
 #include "Player.h"
+#include "Bullet.h"
+#include "Engine/Camera.h"
 #include "Engine/Input.h"
+#include "Engine/Transform.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent)
@@ -33,6 +36,11 @@ void Player::Update()
 	{
 		transform_.position_.x -= 0.03;
 	}
+
+	if (Input::IsKeyDown(DIK_SPACE))
+	{
+		Instantiate<Bullet>(this);
+	}
 }
 
 //描画
@@ -45,3 +53,4 @@ void Player::Draw()
 void Player::Release()
 {
 }
+
