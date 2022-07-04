@@ -43,3 +43,13 @@ void GameObject::ReleaseSub()
 		(*itr)->ReleaseSub();
 	}
 }
+
+void GameObject::SetPosition(XMFLOAT3 position)
+{
+	transform_.position_ = position;
+}
+
+void GameObject::SetPosition(float x, float y, float z)
+{
+	SetPosition(XMFLOAT3(x, y, z));
+}

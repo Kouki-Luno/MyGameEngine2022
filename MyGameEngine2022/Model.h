@@ -4,17 +4,17 @@
 
 
 //プレイヤーを管理するクラス
-class Player : public GameObject
+class Model : public GameObject
 {
     Fbx* pFbx;
-    Transform a;
+
 
 public:
     //コンストラクタ
-    Player(GameObject* parent);
+    Model(GameObject* parent);
 
     //デストラクタ
-    ~Player();
+    ~Model();
 
     //初期化
     void Initialize() override;
