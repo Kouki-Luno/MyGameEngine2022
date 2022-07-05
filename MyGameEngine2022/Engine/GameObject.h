@@ -3,11 +3,14 @@
 #include "Transform.h"
 #include <string>
 #include <list>
+#include "Direct3D.h"
 
 using namespace std;
 
 class GameObject
 {
+	bool dead_;
+
 protected:
 	list<GameObject*>	childList_;		//ゲームオブジェクトのリスト構造
 	Transform			transform_;		//Transformクラス
@@ -17,7 +20,7 @@ protected:
 public:
 	GameObject();
 	GameObject(GameObject* parent, const std::string& name);
-	~GameObject();
+	virtual ~GameObject();
 
 	virtual void Initialize() = 0;	//純粋仮想関数
 	virtual void Update() = 0;		//純粋仮想関数
@@ -26,6 +29,7 @@ public:
 	void DrawSub();
 	virtual void Release(void) = 0;	//純粋仮想関数
 	void ReleaseSub();
+	void KillMe();
 
 	void SetPosition(XMFLOAT3 position);
 	void SetPosition(float x, float y, float z);

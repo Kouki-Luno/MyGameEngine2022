@@ -7,7 +7,7 @@
 class Bullet : public GameObject
 {
     Fbx* pFbx;
-
+    int hModel_;
 
 public:
     //コンストラクタ
