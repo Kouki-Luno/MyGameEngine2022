@@ -34,6 +34,10 @@ public:
 	void SetPosition(XMFLOAT3 position);
 	void SetPosition(float x, float y, float z);
 
+	void FindChildObject(string objectName);
+	void GetRootJob();
+	void FindObject(string objectName);
+
 	template<class T>
 	GameObject* Instantiate(GameObject* parent)
 	{

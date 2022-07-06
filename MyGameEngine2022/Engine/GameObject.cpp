@@ -5,7 +5,8 @@ GameObject::GameObject()
 }
 
 
-GameObject::GameObject(GameObject* parent, const std::string& name) : dead_(false)
+GameObject::GameObject(GameObject* parent, const std::string& name) 
+	: dead_(false), pParent_(parent), objectName_(name)
 {
 }
 
@@ -74,4 +75,21 @@ void GameObject::SetPosition(XMFLOAT3 position)
 void GameObject::SetPosition(float x, float y, float z)
 {
 	SetPosition(XMFLOAT3(x, y, z));
+}
+
+void GameObject::FindChildObject(std::string objectName)
+{
+	if (objectName_ == objectName)
+	{
+
+	}
+}
+
+void GameObject::GetRootJob()
+{
+	if(pParent_)
+}
+
+void GameObject::FindObject(string objectName)
+{
 }

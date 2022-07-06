@@ -1,14 +1,13 @@
 //インクルード
 #include <Windows.h>
+#include <stdlib.h>
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
-//#include "Engine/Fbx.h"
 #include "Engine/Transform.h"
 #include "Engine/Input.h"
-//#include "XInput.h"
-//#include "Engine/GameObject.h"
 #include "Engine/RootJob.h"
-#include <stdlib.h>
+#include "Engine/Model.h"
+
 
 #pragma comment(lib, "winmm.lib")
 
@@ -85,7 +84,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//カメラ初期化
 	Camera::Initialize();
 
-	pRootJob = new RootJob;
+	pRootJob = new RootJob(nullptr);
 	pRootJob->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
@@ -159,6 +158,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			timeEndPeriod(1);
 		}
 	}
+
+	Model::Release();
 
 	pRootJob->Release();
 	SAFE_DELETE(pRootJob);

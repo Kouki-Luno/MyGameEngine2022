@@ -1,9 +1,13 @@
 #include "SceneManager.h"
-#include "PlayScene.h"
+#include "../PlayScene.h"
 
 //コンストラクタ
 SceneManager::SceneManager(GameObject* parent)
 	: GameObject(parent, "SceneManager")
+{
+}
+
+SceneManager::~SceneManager()
 {
 }
 
