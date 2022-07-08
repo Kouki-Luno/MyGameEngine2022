@@ -87,7 +87,10 @@ void GameObject::FindChildObject(std::string objectName)
 
 void GameObject::GetRootJob()
 {
-	if(pParent_)
+	if (pParent_)
+	{
+
+	}
 }
 
 void GameObject::FindObject(string objectName)

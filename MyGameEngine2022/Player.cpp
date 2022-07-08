@@ -27,12 +27,12 @@ void Player::Update()
 
 	if (Input::IsKey(DIK_D))
 	{
-		transform_.position_.x += 0.03;
+		transform_.position_.x += 0.1;
 	}
 
 	if (Input::IsKey(DIK_A))
 	{
-		transform_.position_.x -= 0.03;
+		transform_.position_.x -= 0.1;
 	}
 
 	if (Input::IsKeyDown(DIK_SPACE))
