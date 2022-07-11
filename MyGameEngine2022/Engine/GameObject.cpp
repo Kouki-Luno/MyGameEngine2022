@@ -77,7 +77,7 @@ void GameObject::SetPosition(float x, float y, float z)
 	SetPosition(XMFLOAT3(x, y, z));
 }
 
-void GameObject::FindChildObject(std::string objectName)
+GameObject* GameObject::FindChildObject(std::string objectName)
 {
 	if (objectName_ == objectName)
 	{
@@ -95,4 +95,16 @@ void GameObject::GetRootJob()
 
 void GameObject::FindObject(string objectName)
 {
+
+	if (GetObjectName() == objectName)
+	{
+		return ;
+	}
+
+	return FindChildObject(objectName);
+}
+
+const std::string& GameObject::GetObjectName(void) const
+{
+	return objectName_;
 }

@@ -29,15 +29,26 @@ public:
 	void DrawSub();
 	virtual void Release(void) = 0;	//純粋仮想関数
 	void ReleaseSub();
+
 	void KillMe();
 
 	void SetPosition(XMFLOAT3 position);
 	void SetPosition(float x, float y, float z);
 
-	void FindChildObject(string objectName);
+	GameObject* FindChildObject(string objectName);
 	void GetRootJob();
 	void FindObject(string objectName);
 
+	const std::string& GetObjectName(void) const;
+
+
+	
+
+
+
+
+
+	//テンプレート
 	template<class T>
 	GameObject* Instantiate(GameObject* parent)
 	{
