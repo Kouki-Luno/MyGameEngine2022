@@ -11,6 +11,8 @@ PlayScene::PlayScene(GameObject* parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Player>(this);
+
+	GameObject* test = FindObject("SceneManager");
 }
 
 //XV

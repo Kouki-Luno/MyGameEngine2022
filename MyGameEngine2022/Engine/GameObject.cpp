@@ -81,30 +81,35 @@ GameObject* GameObject::FindChildObject(std::string objectName)
 {
 	if (objectName_ == objectName)
 	{
-
+		return this;
 	}
-}
-
-void GameObject::GetRootJob()
-{
-	if (pParent_)
+	else
 	{
+		for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
+		{
+			GameObject* obj = (*itr)->FindChildObject(objectName);
 
+			if (obj != nullptr)
+			{
+				return obj;
+			}
+		}
 	}
+
+	return nullptr;
 }
 
-void GameObject::FindObject(string objectName)
+GameObject* GameObject::GetRootJob()
 {
-
-	if (GetObjectName() == objectName)
+	if (pParent_ == nullptr)
 	{
-		return ;
+		return this;
 	}
 
-	return FindChildObject(objectName);
+	return pParent_->GetRootJob();
 }
 
-const std::string& GameObject::GetObjectName(void) const
+GameObject* GameObject::FindObject(string objectName)
 {
-	return objectName_;
+	return GetRootJob()->FindChildObject(objectName);
 }

@@ -36,16 +36,8 @@ public:
 	void SetPosition(float x, float y, float z);
 
 	GameObject* FindChildObject(string objectName);
-	void GetRootJob();
-	void FindObject(string objectName);
-
-	const std::string& GetObjectName(void) const;
-
-
-	
-
-
-
+	GameObject* GetRootJob();
+	GameObject* FindObject(string objectName);
 
 
 	//テンプレート
