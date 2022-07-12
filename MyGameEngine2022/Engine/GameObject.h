@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include "Direct3D.h"
+#include "SphereCollider.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ protected:
 	Transform			transform_;		//Transformクラス
 	GameObject*			pParent_;		//ゲームオブジェクトなら誰でも「ポインタ」
 	string				objectName_;	//文字列
+
 
 public:
 	GameObject();
@@ -38,6 +40,16 @@ public:
 	GameObject* FindChildObject(string objectName);
 	GameObject* GetRootJob();
 	GameObject* FindObject(string objectName);
+
+	SphereCollider* pSphereCollider_;
+
+	void AddCollider(SphereCollider* SphereCollider);
+
+	virtual void OnCollision(GameObject* pTarget) {};
+
+	//衝突判定
+	//引数：pTarget	衝突してるか調べる相手
+	void Collision(GameObject* pTarget);
 
 
 	//テンプレート

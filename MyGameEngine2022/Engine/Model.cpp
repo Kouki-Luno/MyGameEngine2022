@@ -3,6 +3,8 @@
 #include "Fbx.h"
 #include "Direct3D.h"
 
+
+//
 namespace Model
 {
 	struct ModelData
@@ -15,6 +17,7 @@ namespace Model
 	std::vector<ModelData*>	models;
 }
 
+//ロード
 int Model::Load(std::string fileName)
 {
 	ModelData* pData;
@@ -41,16 +44,22 @@ int Model::Load(std::string fileName)
 	return models.size() - 1;
 }
 
+
+//トランスフォームをセット
 void Model::SetTransform(int hModel, Transform transform)
 {
 	models[hModel]->transform = transform;
 }
 
+
+//描画
 void Model::Draw(int hModel)
 {
 	models[hModel]->pFbx->Draw(models[hModel]->transform);
 }
 
+
+//
 void Model::Release()
 {
 	for (int i = 0; i < models.size(); i++)

@@ -21,6 +21,8 @@ void Bullet::Initialize()
 	hModel_ = Model::Load("Assets/ODEN2.fbx");
 	assert(hModel_ >= 0);
 
+	transform_.rotate_.x = 90;
+
 	transform_.scale_.x = 0.2f;
 	transform_.scale_.y = 0.2f;
 	transform_.scale_.z = 0.2f;

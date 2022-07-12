@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Engine/Input.h"
+#include "Engine/SceneManager.h"
+#include "Engine/SphereCollider.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent)
@@ -18,6 +20,9 @@ void Player::Initialize()
 {
     pFbx = new Fbx;
     pFbx->Load("Assets/ODEN2.fbx");
+
+	//SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 1.2f);
+	//AddCollider(collision);
 }
 
 //更新
@@ -39,6 +44,12 @@ void Player::Update()
 	{
 		GameObject* pBullet = Instantiate<Bullet>(pParent_);
 		pBullet->SetPosition(transform_.position_);
+	}
+
+	if (Input::IsKey(DIK_RETURN))
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEST);
 	}
 }
 

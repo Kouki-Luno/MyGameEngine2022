@@ -1,28 +1,23 @@
 #include "SphereCollider.h"
+#include "GameObject.h"
+#include "Model.h"
+#include "Transform.h"
 
 //コンストラクタ
-SphereCollider::SphereCollider(GameObject* parent)
-	: GameObject(parent, "SphereCollider")
+SphereCollider::SphereCollider(XMFLOAT3 center, float radius) //: pGameObject_(nullptr)
 {
+	center_ = center;
+	size_ = XMFLOAT3(radius, radius, radius);
 }
 
-//初期化
-void SphereCollider::Initialize()
+bool SphereCollider::IsHitCircleVsCircle(SphereCollider* circleA, SphereCollider* circleB)
 {
-	
+	return false;
 }
 
-//更新
-void SphereCollider::Update()
+
+bool SphereCollider::IsHit(SphereCollider* target)
 {
+	return false;
 }
 
-//描画
-void SphereCollider::Draw()
-{
-}
-
-//開放
-void SphereCollider::Release()
-{
-}

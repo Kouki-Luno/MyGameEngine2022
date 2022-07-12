@@ -113,3 +113,5 @@ GameObject* GameObject::FindObject(string objectName)
 {
 	return GetRootJob()->FindChildObject(objectName);
 }
+
+
