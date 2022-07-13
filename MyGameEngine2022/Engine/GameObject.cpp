@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "SphereCollider.h"
 
 GameObject::GameObject()
 {
@@ -6,7 +7,7 @@ GameObject::GameObject()
 
 
 GameObject::GameObject(GameObject* parent, const std::string& name) 
-	: dead_(false), pParent_(parent), objectName_(name)
+	: dead_(false), pParent_(parent), objectName_(name), pCollider_(nullptr)
 {
 }
 
@@ -18,6 +19,8 @@ GameObject::~GameObject()
 void GameObject::UpdateSub()
 {
 	Update();
+
+	RoundRobin(GetRootJob());
 
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
 	{
@@ -114,4 +117,44 @@ GameObject* GameObject::FindObject(string objectName)
 	return GetRootJob()->FindChildObject(objectName);
 }
 
+void GameObject::AddCollider(SphereCollider* pCollider)
+{
+	pCollider_ = pCollider;
+}
 
+void GameObject::Collision(GameObject* pTarget)
+{
+	if (this == pTarget || pTarget->pCollider_ == nullptr)
+	{
+		return;
+	}
+	float x = transform_.position_.x - pTarget->transform_.position_.x;
+	float y = transform_.position_.y - pTarget->transform_.position_.y;
+	float z = transform_.position_.z - pTarget->transform_.position_.z;
+
+	float radiusSum = pCollider_->GetRadius() + pTarget->pCollider_->GetRadius();
+
+
+	if (x * x + y * y + z * z <= radiusSum * radiusSum)
+	{
+		int a = 0;
+	}
+}
+
+void GameObject::RoundRobin(GameObject* pTarget)
+{
+	if (pCollider_ == nullptr)
+	{
+		return;
+	}
+
+	if (pTarget->pCollider_)
+	{
+		Collision(pTarget);
+	}
+
+	for (auto i = pTarget->childList_.begin(); i != pTarget->childList_.end(); i++)
+	{
+		RoundRobin(*i);
+	}
+}

@@ -4,16 +4,16 @@
 
 
 //プレイヤーを管理するクラス
-class Enemy : public GameObject
+class MiniOden : public GameObject
 {
     Fbx* pFbx;
 
 public:
     //コンストラクタ
-    Enemy(GameObject* parent);
+    MiniOden(GameObject* parent);
 
     //デストラクタ
-    ~Enemy();
+    ~MiniOden();
 
     //初期化
     void Initialize() override;
@@ -26,4 +26,7 @@ public:
 
     //開放
     void Release() override;
+
 };
+
+

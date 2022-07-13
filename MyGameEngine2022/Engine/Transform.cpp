@@ -34,8 +34,15 @@ void Transform::Calclation()
 
 XMMATRIX Transform::GetWorldMatrix()
 {
-	//return XMMATRIX(); // <- ˆÚ“®A‰ñ“]AŠg‘å‚Ì‡¬
-	return matScale_ * matRotate_ * matTranslate_;
+	if (pParent_)
+	{
+		return matScale_ * matRotate_ * matTranslate_ * pParent_->GetWorldMatrix();
+	}
+	else
+	{
+		//return XMMATRIX(); // <- ˆÚ“®A‰ñ“]AŠg‘å‚Ì‡¬
+		return matScale_ * matRotate_ * matTranslate_;
+	}
 }
 
 XMMATRIX Transform::GetNormalMatrix()

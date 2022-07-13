@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Engine/Input.h"
+#include "Engine/SceneManager.h"
+#include "Engine/SphereCollider.h"
 
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
@@ -18,14 +20,16 @@ void Enemy::Initialize()
 {
 	pFbx = new Fbx;
 	pFbx->Load("Assets/ODEN2.fbx");
+
+	transform_.position_.z = 20;
+
+	SphereCollider* collision = new SphereCollider(1.0f);
+	AddCollider(collision);
 }
 
 //更新
 void Enemy::Update()
 {
-	transform_.rotate_.y--;
-	transform_.position_.z = 20;
-
 }
 
 //描画

@@ -8,6 +8,8 @@
 
 using namespace std;
 
+class SphereCollider;
+
 class GameObject
 {
 	bool dead_;
@@ -17,7 +19,7 @@ protected:
 	Transform			transform_;		//Transformクラス
 	GameObject*			pParent_;		//ゲームオブジェクトなら誰でも「ポインタ」
 	string				objectName_;	//文字列
-
+	SphereCollider*		pCollider_;
 
 public:
 	GameObject();
@@ -43,13 +45,9 @@ public:
 
 	SphereCollider* pSphereCollider_;
 
-	void AddCollider(SphereCollider* SphereCollider);
-
-	virtual void OnCollision(GameObject* pTarget) {};
-
-	//衝突判定
-	//引数：pTarget	衝突してるか調べる相手
+	void AddCollider(SphereCollider* pCollider);
 	void Collision(GameObject* pTarget);
+	void RoundRobin(GameObject* pTarget);
 
 
 	//テンプレート

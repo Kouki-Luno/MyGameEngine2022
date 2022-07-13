@@ -1,8 +1,7 @@
 #include "Bullet.h"
 #include "Engine/Input.h"
-#include "Engine/Transform.h"
-#include "Engine/GameObject.h"
 #include "Engine/Model.h"
+#include "Engine/SphereCollider.h"
 
 //コンストラクタ
 Bullet::Bullet(GameObject* parent)
@@ -21,22 +20,25 @@ void Bullet::Initialize()
 	hModel_ = Model::Load("Assets/ODEN2.fbx");
 	assert(hModel_ >= 0);
 
-	transform_.rotate_.x = 90;
 
 	transform_.scale_.x = 0.2f;
 	transform_.scale_.y = 0.2f;
 	transform_.scale_.z = 0.2f;
 
-	if (transform_.position_.z > 10)
-	{
-		KillMe();
-	}
+	SphereCollider* collision = new SphereCollider(1.0f);
+	AddCollider(collision);
+
 }
 
 //更新
 void Bullet::Update()
 {
 	transform_.position_.z += 1.0;
+
+	if (transform_.position_.z > 50)
+	{
+		KillMe();
+	}
 }
 
 //描画

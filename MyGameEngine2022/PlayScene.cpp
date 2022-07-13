@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "MiniOden.h"
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
@@ -13,7 +14,7 @@ void PlayScene::Initialize()
 {
 	Instantiate<Player>(this);
 	Instantiate<Enemy>(this);
-
+	Instantiate<MiniOden>(this);
 
 	GameObject* test = FindObject("SceneManager");
 }
