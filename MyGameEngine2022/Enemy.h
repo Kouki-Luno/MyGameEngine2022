@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Fbx.h"
+#include "Engine/SphereCollider.h"
 
 
 //プレイヤーを管理するクラス
@@ -26,4 +27,6 @@ public:
 
     //開放
     void Release() override;
+
+    void OnCollision(GameObject* pTarget);
 };

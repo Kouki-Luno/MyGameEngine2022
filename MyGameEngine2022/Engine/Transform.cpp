@@ -34,9 +34,9 @@ void Transform::Calclation()
 
 XMMATRIX Transform::GetWorldMatrix()
 {
-	if (pParent_)
+	if (pParent_ != nullptr)
 	{
-		return matScale_ * matRotate_ * matTranslate_ * pParent_->GetWorldMatrix();
+		return (matScale_ * matRotate_ * matTranslate_) * pParent_->GetWorldMatrix();
 	}
 	else
 	{

@@ -27,7 +27,6 @@ void Bullet::Initialize()
 
 	SphereCollider* collision = new SphereCollider(1.0f);
 	AddCollider(collision);
-
 }
 
 //XV

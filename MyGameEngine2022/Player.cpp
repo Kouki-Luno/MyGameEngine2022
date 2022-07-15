@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Bullet.h"
+#include "MiniOden.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
 #include "Engine/SphereCollider.h"
@@ -21,8 +22,10 @@ void Player::Initialize()
     pFbx = new Fbx;
     pFbx->Load("Assets/ODEN2.fbx");
 
-	//SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 1.2f);
-	//AddCollider(collision);
+	Instantiate<MiniOden>(this);
+
+	SphereCollider* collision = new SphereCollider(1.0f);
+	AddCollider(collision);
 }
 
 //çXêV

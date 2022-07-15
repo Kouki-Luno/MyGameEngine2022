@@ -9,6 +9,10 @@ GameObject::GameObject()
 GameObject::GameObject(GameObject* parent, const std::string& name) 
 	: dead_(false), pParent_(parent), objectName_(name), pCollider_(nullptr)
 {
+	if (pParent_ != nullptr)
+	{
+		this->transform_.pParent_ = &pParent_->transform_;
+	}
 }
 
 
@@ -137,7 +141,7 @@ void GameObject::Collision(GameObject* pTarget)
 
 	if (x * x + y * y + z * z <= radiusSum * radiusSum)
 	{
-		int a = 0;
+		OnCollision(pTarget);
 	}
 }
 

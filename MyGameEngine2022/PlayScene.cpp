@@ -14,7 +14,7 @@ void PlayScene::Initialize()
 {
 	Instantiate<Player>(this);
 	Instantiate<Enemy>(this);
-	Instantiate<MiniOden>(this);
+	
 
 	GameObject* test = FindObject("SceneManager");
 }

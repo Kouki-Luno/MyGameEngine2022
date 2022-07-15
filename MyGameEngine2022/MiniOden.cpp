@@ -1,9 +1,6 @@
 #include "MiniOden.h"
-#include "Engine/Transform.h"
-#include "Player.h"
 #include "Engine/Input.h"
-#include "Engine/SceneManager.h"
-#include "Engine/SphereCollider.h"
+
 
 
 //コンストラクタ

@@ -3,6 +3,9 @@
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
 #include "Engine/SphereCollider.h"
+#include "Engine/Direct3D.h"
+
+using namespace DirectX;
 
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
@@ -41,4 +44,13 @@ void Enemy::Draw()
 //開放
 void Enemy::Release()
 {
+}
+
+void Enemy::OnCollision(GameObject* pTarget)
+{
+	if (pTarget->GetObjectName() == "Bullet")
+	{
+		KillMe();
+	}
+	pTarget->KillMe();
 }
