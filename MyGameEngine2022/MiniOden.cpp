@@ -24,7 +24,7 @@ void MiniOden::Initialize()
 	transform_.scale_.y = 0.25;
 	transform_.scale_.z = 0.25;
 
-	transform_.position_.x = 3;
+	transform_.position_.x = 5;
 }
 
 //çXêV
