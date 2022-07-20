@@ -1,7 +1,9 @@
 #pragma once
+
 #include "Direct3D.h"
 #include <DirectXMath.h>
 #include "Texture.h"
+
 
 using namespace DirectX;
 

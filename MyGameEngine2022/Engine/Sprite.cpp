@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Camera.h"
+#include "Direct3D.h"
 
 
 Sprite::Sprite() :
@@ -19,15 +20,6 @@ Sprite::~Sprite()
 HRESULT Sprite::Initialize()
 {
 	HRESULT hr;
-
-	//// 頂点情報
-	//XMVECTOR vertices[] =
-	//{
-	//	XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	// 立方体の頂点（左上）
-	//	XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	// 立方体の頂点（右上）
-	//	XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	// 立方体の頂点（右下）
-	//	XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	// 立方体の頂点（左下）		
-	//};
 
 	// 頂点情報
 	VERTEX vertices[] =
@@ -101,7 +93,7 @@ HRESULT Sprite::Initialize()
 }
 
 
-void Sprite::Draw(/*Transform& transform*/ XMMATRIX & worldMatrix)
+void Sprite::Draw(XMMATRIX & worldMatrix)
 {
 	Direct3D::SetShader(SHADER_2D);
 
