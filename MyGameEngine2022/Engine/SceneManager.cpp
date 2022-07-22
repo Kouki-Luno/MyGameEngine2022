@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "../PlayScene.h"
 #include "../TitleScene.h"
+#include "../ClearScene.h"
 
 //コンストラクタ
 SceneManager::SceneManager(GameObject* parent)
@@ -42,6 +43,7 @@ void SceneManager::Update()
         {
         case SCENE_ID_TITLE: Instantiate<TitleScene>(this); break;
         case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
+        case SCENE_ID_CLEAR: Instantiate<ClearScene>(this); break;
         }
 
         currentSceneID_ = nextSceneID_;

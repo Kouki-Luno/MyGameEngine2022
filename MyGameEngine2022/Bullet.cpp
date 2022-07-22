@@ -21,9 +21,9 @@ void Bullet::Initialize()
 	assert(hModel_ >= 0);
 
 
-	transform_.scale_.x = 0.2f;
-	transform_.scale_.y = 0.2f;
-	transform_.scale_.z = 0.2f;
+	transform_.scale_.x = 0.35f;
+	transform_.scale_.y = 0.35f;
+	transform_.scale_.z = 0.35f;
 
 	SphereCollider* collision = new SphereCollider(1.0f);
 	AddCollider(collision);

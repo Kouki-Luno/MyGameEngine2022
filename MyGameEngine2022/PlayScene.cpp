@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "MiniOden.h"
+#include "Engine/SphereCollider.h"
+#include "Engine/SceneManager.h"
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
@@ -22,6 +24,12 @@ void PlayScene::Initialize()
 //更新
 void PlayScene::Update()
 {
+	//クリア画面に切り替え
+	if (FindObject("Enemy") == nullptr)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+	}
 }
 
 //描画

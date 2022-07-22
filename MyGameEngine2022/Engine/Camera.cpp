@@ -11,7 +11,7 @@ XMMATRIX projMatrix_;	//プロジェクション行列
 //初期化
 void Camera::Initialize()
 {
-	position_ = XMVectorSet(0, 10, -15, 0);	//カメラの位置
+	position_ = XMVectorSet(0, 30, -25, 0);	//カメラの位置
 	target_ = XMVectorSet(0, 5, 0, 0);	//カメラの焦点
 
 	//プロジェクション行列
