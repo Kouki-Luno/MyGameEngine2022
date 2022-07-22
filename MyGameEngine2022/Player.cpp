@@ -49,11 +49,7 @@ void Player::Update()
 		pBullet->SetPosition(transform_.position_);
 	}
 
-	//if (Input::IsKey(DIK_RETURN))
-	//{
-	//	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//	pSceneManager->ChangeScene(SCENE_ID_PLAY);
-	//}
+
 }
 
 //•`‰æ

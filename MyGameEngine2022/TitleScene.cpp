@@ -1,23 +1,20 @@
 #include "TitleScene.h"
-#include "Engine/Sprite.h"
-#include "Engine/Texture.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
+#include "Engine/Image.h"
 
 //コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "TitleScene")
+	: GameObject(parent, "TitleScene"), hPict_(-1)
 {
 }
 
 //初期化
 void TitleScene::Initialize()
 {
-	pTexture_ = new Texture;
-	pTexture_->Load(L"Assets\\Title2.png");
-
-	
-	
+	//画像データのロード
+	hPict_ = Image::Load("Assets\\Title3.jpg");
+	assert(hPict_ >= 0);
 }
 //更新
 void TitleScene::Update()
@@ -32,7 +29,8 @@ void TitleScene::Update()
 //描画
 void TitleScene::Draw()
 {
-
+	Image::SetTransform(hPict_, transform_);
+	Image::Draw(hPict_);
 }
 
 //開放

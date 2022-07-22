@@ -19,15 +19,21 @@ Texture::~Texture()
 
 HRESULT Texture::Load(LPCWSTR fileName)
 {
-	
+	HRESULT hr;
 
 	IWICImagingFactory* pFactory = nullptr;
 	IWICBitmapDecoder* pDecoder = nullptr;
 	IWICBitmapFrameDecode* pFrame = nullptr;
 	IWICFormatConverter* pFormatConverter = nullptr;
 	CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, reinterpret_cast<void**>(&pFactory));
-	HRESULT hr = pFactory->CreateDecoderFromFilename(fileName, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder);
-	pDecoder->GetFrame(0, &pFrame);
+	hr = pFactory->CreateDecoderFromFilename(fileName, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder);
+
+	hr = pDecoder->GetFrame(0, &pFrame);
+	if (FAILED(hr))
+	{
+		return E_FAIL;
+	}
+
 	pFactory->CreateFormatConverter(&pFormatConverter);
 	pFormatConverter->Initialize(pFrame, GUID_WICPixelFormat32bppRGBA, WICBitmapDitherTypeNone, NULL, 1.0f, WICBitmapPaletteTypeMedianCut);
 

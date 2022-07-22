@@ -1,13 +1,11 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Engine/Texture.h"
-#include "Engine/Sprite.h"
 
 //■■シーンを管理するクラス
 class TitleScene : public GameObject
 {
-	Texture* pTexture_;
-	Sprite* pSprite_;
+private:
+	int hPict_;    //画像番号
 
 public:
 	//コンストラクタ

@@ -1,5 +1,5 @@
-
 #include "Image.h"
+#include "Direct3D.h"
 
 //3D‰æ‘œ‚ðŠÇ—‚·‚é
 namespace Image
@@ -35,7 +35,12 @@ namespace Image
 		if (isExist == false)
 		{
 			pData->pSprite = new Sprite;
-			if (FAILED(pData->pSprite->Load(fileName)))
+
+			wchar_t wtext[FILENAME_MAX];
+			size_t ret;
+			mbstowcs_s(&ret, wtext, fileName.c_str(), strlen(fileName.c_str()));
+
+			if (FAILED(pData->pSprite->Initialize(wtext)))
 			{
 				//ŠJ‚¯‚È‚©‚Á‚½
 				SAFE_DELETE(pData->pSprite);
